@@ -76,7 +76,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Project\2020SummerGame\GameProj\proj.win32\reader;$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -118,7 +118,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\Project\2020SummerGame\GameProj\proj.win32\reader;$(EngineRoot);$(EngineRoot)external;$(EngineRoot)cocos\audio\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -128,6 +128,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libcurl.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
@@ -151,12 +152,111 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="DataLoader.cpp" />
+    <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="reader\animation\AnimateClip.cpp" />
+    <ClCompile Include="reader\animation\AnimationClip.cpp" />
+    <ClCompile Include="reader\animation\AnimationManager.cpp" />
+    <ClCompile Include="reader\animation\Bezier.cpp" />
+    <ClCompile Include="reader\animation\Easing.cpp" />
+    <ClCompile Include="reader\collider\Collider.cpp" />
+    <ClCompile Include="reader\collider\ColliderManager.cpp" />
+    <ClCompile Include="reader\collider\Contract.cpp" />
+    <ClCompile Include="reader\collider\Intersection.cpp" />
+    <ClCompile Include="reader\CreatorReader.cpp" />
+    <ClCompile Include="reader\dragonbones\animation\Animation.cpp" />
+    <ClCompile Include="reader\dragonbones\animation\AnimationState.cpp" />
+    <ClCompile Include="reader\dragonbones\animation\TimelineState.cpp" />
+    <ClCompile Include="reader\dragonbones\animation\WorldClock.cpp" />
+    <ClCompile Include="reader\dragonbones\armature\Armature.cpp" />
+    <ClCompile Include="reader\dragonbones\armature\Bone.cpp" />
+    <ClCompile Include="reader\dragonbones\armature\Slot.cpp" />
+    <ClCompile Include="reader\dragonbones\cocos2dx\CCArmatureDisplay.cpp" />
+    <ClCompile Include="reader\dragonbones\cocos2dx\CCFactory.cpp" />
+    <ClCompile Include="reader\dragonbones\cocos2dx\CCSlot.cpp" />
+    <ClCompile Include="reader\dragonbones\cocos2dx\CCTextureData.cpp" />
+    <ClCompile Include="reader\dragonbones\core\BaseObject.cpp" />
+    <ClCompile Include="reader\dragonbones\events\EventObject.cpp" />
+    <ClCompile Include="reader\dragonbones\factories\BaseFactory.cpp" />
+    <ClCompile Include="reader\dragonbones\model\AnimationData.cpp" />
+    <ClCompile Include="reader\dragonbones\model\ArmatureData.cpp" />
+    <ClCompile Include="reader\dragonbones\model\DragonBonesData.cpp" />
+    <ClCompile Include="reader\dragonbones\model\FrameData.cpp" />
+    <ClCompile Include="reader\dragonbones\model\TimelineData.cpp" />
+    <ClCompile Include="reader\dragonbones\parsers\DataParser.cpp" />
+    <ClCompile Include="reader\dragonbones\parsers\JSONDataParser.cpp" />
+    <ClCompile Include="reader\dragonbones\textures\TextureData.cpp" />
+    <ClCompile Include="reader\ui\PageView.cpp" />
+    <ClCompile Include="reader\ui\RichtextStringVisitor.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="DataLoader.h" />
+    <ClInclude Include="Fighter.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="reader\animation\AnimateClip.h" />
+    <ClInclude Include="reader\animation\AnimationClip.h" />
+    <ClInclude Include="reader\animation\AnimationClipProperties.h" />
+    <ClInclude Include="reader\animation\AnimationManager.h" />
+    <ClInclude Include="reader\animation\Bezier.h" />
+    <ClInclude Include="reader\animation\Easing.h" />
+    <ClInclude Include="reader\collider\Collider.h" />
+    <ClInclude Include="reader\collider\ColliderManager.h" />
+    <ClInclude Include="reader\collider\Contract.h" />
+    <ClInclude Include="reader\collider\Intersection.h" />
+    <ClInclude Include="reader\CreatorReader.h" />
+    <ClInclude Include="reader\CreatorReader_generated.h" />
+    <ClInclude Include="reader\dragonbones\animation\Animation.h" />
+    <ClInclude Include="reader\dragonbones\animation\AnimationState.h" />
+    <ClInclude Include="reader\dragonbones\animation\BaseTimelineState.h" />
+    <ClInclude Include="reader\dragonbones\animation\IAnimateble.h" />
+    <ClInclude Include="reader\dragonbones\animation\TimelineState.h" />
+    <ClInclude Include="reader\dragonbones\animation\WorldClock.h" />
+    <ClInclude Include="reader\dragonbones\armature\Armature.h" />
+    <ClInclude Include="reader\dragonbones\armature\Bone.h" />
+    <ClInclude Include="reader\dragonbones\armature\IArmatureDisplay.h" />
+    <ClInclude Include="reader\dragonbones\armature\Slot.h" />
+    <ClInclude Include="reader\dragonbones\armature\TransformObject.h" />
+    <ClInclude Include="reader\dragonbones\cocos2dx\CCArmatureDisplay.h" />
+    <ClInclude Include="reader\dragonbones\cocos2dx\CCDragonBonesHeaders.h" />
+    <ClInclude Include="reader\dragonbones\cocos2dx\CCFactory.h" />
+    <ClInclude Include="reader\dragonbones\cocos2dx\CCSlot.h" />
+    <ClInclude Include="reader\dragonbones\cocos2dx\CCTextureData.h" />
+    <ClInclude Include="reader\dragonbones\core\BaseObject.h" />
+    <ClInclude Include="reader\dragonbones\core\DragonBones.h" />
+    <ClInclude Include="reader\dragonbones\DragonBonesHeaders.h" />
+    <ClInclude Include="reader\dragonbones\events\EventObject.h" />
+    <ClInclude Include="reader\dragonbones\factories\BaseFactory.h" />
+    <ClInclude Include="reader\dragonbones\geom\ColorTransform.h" />
+    <ClInclude Include="reader\dragonbones\geom\Matrix.h" />
+    <ClInclude Include="reader\dragonbones\geom\Point.h" />
+    <ClInclude Include="reader\dragonbones\geom\Rectangle.h" />
+    <ClInclude Include="reader\dragonbones\geom\Transform.h" />
+    <ClInclude Include="reader\dragonbones\model\AnimationData.h" />
+    <ClInclude Include="reader\dragonbones\model\ArmatureData.h" />
+    <ClInclude Include="reader\dragonbones\model\DragonBonesData.h" />
+    <ClInclude Include="reader\dragonbones\model\FrameData.h" />
+    <ClInclude Include="reader\dragonbones\model\TimelineData.h" />
+    <ClInclude Include="reader\dragonbones\parsers\DataParser.h" />
+    <ClInclude Include="reader\dragonbones\parsers\JSONDataParser.h" />
+    <ClInclude Include="reader\dragonbones\textures\TextureData.h" />
+    <ClInclude Include="reader\flatbuffers\code_generators.h" />
+    <ClInclude Include="reader\flatbuffers\flatbuffers.h" />
+    <ClInclude Include="reader\flatbuffers\grpc.h" />
+    <ClInclude Include="reader\flatbuffers\hash.h" />
+    <ClInclude Include="reader\flatbuffers\idl.h" />
+    <ClInclude Include="reader\flatbuffers\reflection.h" />
+    <ClInclude Include="reader\flatbuffers\reflection_generated.h" />
+    <ClInclude Include="reader\flatbuffers\util.h" />
+    <ClInclude Include="reader\Macros.h" />
+    <ClInclude Include="reader\ui\PageView.h" />
+    <ClInclude Include="reader\ui\RichtextStringVisitor.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
@@ -169,6 +269,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\creator\scene1.ccreator" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
