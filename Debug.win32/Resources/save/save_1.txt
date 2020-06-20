@@ -1,0 +1,16 @@
+* player_data
+userName=chen
+machinePart=0
+* fighter_1
+fighterType=player
+fighterName=playerFighter
+health=100
+engineEnergy=1.0
+port_1=weapon_1
+* weapon_1
+weaponType=gun
+rpm=5
+* weapon_2
+weaponType=bullet
+bulletSpeed=10
+damage=10

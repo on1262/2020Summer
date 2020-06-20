@@ -1,0 +1,7 @@
+* player
+texturePath=fighter1.png
+port_1=gun
+* gun
+texturePath=gun1.png
+* bullet
+texturePath=bullet1.png
