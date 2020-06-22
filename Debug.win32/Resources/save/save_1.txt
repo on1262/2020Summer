@@ -7,6 +7,11 @@ fighterName=playerFighter
 health=100
 engineEnergy=1.0
 port_1=weapon_1
+* fighter_2
+fighterType=enemyAA
+fighterName=enemyFighter
+health=100
+engineEnergy=1.09
 * weapon_1
 weaponType=gun
 rpm=5
@@ -14,3 +19,9 @@ rpm=5
 weaponType=bullet
 bulletSpeed=10
 damage=10
+* level_1
+relativeDifficulty=1
+timeDifficulty=1
+enemy_1=fighter_2
+stageZone_1=12356
+generateProbability_1=75

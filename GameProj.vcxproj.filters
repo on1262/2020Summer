@@ -39,7 +39,13 @@
     <ClCompile Include="..\Classes\WeaponGun.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\playerFighter.cpp">
+    <ClCompile Include="..\Classes\Level.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PlayerFighter.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EnemyAA.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,10 +77,16 @@
     <ClInclude Include="..\Classes\WeaponGun.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\playerFighter.h">
+    <ClInclude Include="..\Classes\Reflaction.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Reflaction.h">
+    <ClInclude Include="..\Classes\Level.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PlayerFighter.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EnemyAA.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

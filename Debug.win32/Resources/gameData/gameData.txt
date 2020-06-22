@@ -1,6 +1,8 @@
 * player
 texturePath=fighter1.png
 port_1=gun
+* enemyAA
+texturePath=enemy1.png
 * gun
 texturePath=gun1.png
 * bullet
