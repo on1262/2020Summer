@@ -7,92 +7,162 @@
     <Filter Include="resource">
       <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    <Filter Include="weapon">
+      <UniqueIdentifier>{f7b87c2c-a861-489e-9a08-3967b9e796b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fighter">
+      <UniqueIdentifier>{63c5dfaf-d35f-4a07-b778-2c60d711325b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scene">
+      <UniqueIdentifier>{2ae41f79-56be-43f1-829c-28e75ad505f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{7a6f415c-2844-4d72-ae8b-64c6ed77e389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gem">
+      <UniqueIdentifier>{05dbc624-3bc9-4d5e-ab24-9533c1cdfbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{6b5e7e10-e08f-41da-abf7-851546e3c379}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="language">
+      <UniqueIdentifier>{bd24d264-b13e-461d-9ea1-8943509f9524}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="WeaponBullet.cpp">
+      <Filter>weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Data.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="WeaponGun.cpp">
+      <Filter>weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\DataLoader.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="AppDelegate.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Fighter.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Data.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Weapon.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="DataLoader.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\WeaponBullet.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="EnemyAA.cpp">
+      <Filter>fighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\WeaponGun.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Fighter.cpp">
+      <Filter>fighter</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Level.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="HelloWorldScene.cpp">
+      <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\PlayerFighter.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="Level.cpp">
+      <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\EnemyAA.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="PlayerFighter.cpp">
+      <Filter>fighter</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="gem.cpp">
+      <Filter>gem</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetGenerator.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
+    <ClCompile Include="tinter.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="stationScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguageManager.cpp">
+      <Filter>language</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Weapon.h">
+      <Filter>weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
+    <ClInclude Include="WeaponBullet.h">
+      <Filter>weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Data.h">
-      <Filter>src</Filter>
+    <ClInclude Include="WeaponGun.h">
+      <Filter>weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\DataLoader.h">
-      <Filter>src</Filter>
+    <ClInclude Include="AppDelegate.h">
+      <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Fighter.h">
-      <Filter>src</Filter>
+    <ClInclude Include="Data.h">
+      <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Weapon.h">
-      <Filter>src</Filter>
+    <ClInclude Include="DataLoader.h">
+      <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\WeaponBullet.h">
-      <Filter>src</Filter>
+    <ClInclude Include="EnemyAA.h">
+      <Filter>fighter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\WeaponGun.h">
-      <Filter>src</Filter>
+    <ClInclude Include="Fighter.h">
+      <Filter>fighter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Reflaction.h">
-      <Filter>src</Filter>
+    <ClInclude Include="HelloWorldScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Level.h">
-      <Filter>src</Filter>
+    <ClInclude Include="Level.h">
+      <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\PlayerFighter.h">
-      <Filter>src</Filter>
+    <ClInclude Include="PlayerFighter.h">
+      <Filter>fighter</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\EnemyAA.h">
-      <Filter>src</Filter>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="gem.h">
+      <Filter>gem</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetGenerator.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflaction.h">
+      <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="tinter.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="stationScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguageManager.h">
+      <Filter>language</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
       <Filter>resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="build-cfg.json" />
+    <None Include="svpng.h">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="..\Resources\language\zh.json">
+      <Filter>language</Filter>
+    </None>
   </ItemGroup>
 </Project>

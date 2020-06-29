@@ -150,33 +150,48 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\Data.cpp" />
-    <ClCompile Include="..\Classes\DataLoader.cpp" />
-    <ClCompile Include="..\Classes\EnemyAA.cpp" />
-    <ClCompile Include="..\Classes\Fighter.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="..\Classes\Level.cpp" />
-    <ClCompile Include="..\Classes\PlayerFighter.cpp" />
-    <ClCompile Include="..\Classes\Weapon.cpp" />
-    <ClCompile Include="..\Classes\WeaponBullet.cpp" />
-    <ClCompile Include="..\Classes\WeaponGun.cpp" />
+    <ClCompile Include="AppDelegate.cpp" />
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="DataLoader.cpp" />
+    <ClCompile Include="EnemyAA.cpp" />
+    <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="gem.cpp" />
+    <ClCompile Include="HelloWorldScene.cpp" />
+    <ClCompile Include="LanguageManager.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="PlayerFighter.cpp" />
+    <ClCompile Include="PlanetGenerator.cpp" />
+    <ClCompile Include="SimplexNoise.cpp" />
+    <ClCompile Include="stationScene.cpp" />
+    <ClCompile Include="tinter.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponBullet.cpp" />
+    <ClCompile Include="WeaponGun.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\Data.h" />
-    <ClInclude Include="..\Classes\DataLoader.h" />
-    <ClInclude Include="..\Classes\EnemyAA.h" />
-    <ClInclude Include="..\Classes\Fighter.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\Classes\Level.h" />
-    <ClInclude Include="..\Classes\PlayerFighter.h" />
-    <ClInclude Include="..\Classes\Reflaction.h" />
-    <ClInclude Include="..\Classes\Weapon.h" />
-    <ClInclude Include="..\Classes\WeaponBullet.h" />
-    <ClInclude Include="..\Classes\WeaponGun.h" />
+    <ClInclude Include="AppDelegate.h" />
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="DataLoader.h" />
+    <ClInclude Include="EnemyAA.h" />
+    <ClInclude Include="Fighter.h" />
+    <ClInclude Include="gem.h" />
+    <ClInclude Include="HelloWorldScene.h" />
+    <ClInclude Include="LanguageManager.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="PlayerFighter.h" />
+    <ClInclude Include="PlanetGenerator.h" />
+    <ClInclude Include="Reflaction.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="stationScene.h" />
+    <ClInclude Include="tinter.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponBullet.h" />
+    <ClInclude Include="WeaponGun.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
@@ -189,6 +204,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\language\zh.json" />
+    <None Include="build-cfg.json" />
+    <None Include="svpng.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

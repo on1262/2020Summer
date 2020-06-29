@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">  
+<plist version="1.0">  
+<dict>
+  <key>station</key>
+  <string>维修舱</string>
+  <key>planetAXIV</key>
+  <string>AX-IV行星</string>
+  <key>helloText</key>
+  <string>你想要做什么？</string>
+  <key>fitWeapon</key>
+  <string>装配武器...</string>
+  <key>starMap</key>
+  <string>打开星图...</string>
+  <key>save</key>
+  <string>存档...</string>
+  <key>fitShip</key>
+  <string>装配飞船...</string>
+</dict>  
+</plist>  
