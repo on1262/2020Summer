@@ -1,14 +1,14 @@
 #ifndef __FIGHTER_H__
 #define __FIGHTER_H__
 
-#include "HelloWorldScene.h"
+#include "FightScene.h"
 #include "cocos2d.h"
 #include "Weapon.h"
 #include "Data.h"
 #include <vector>
 #include <string>
 
-class HelloWorld;
+class FightScene;
 
 namespace game {
 	enum ally;
@@ -39,7 +39,7 @@ namespace game {
 		bool loadFighter(DataLoader* pGameDL, DataLoader* pUserDL, Data* fighterData, ally wAlly, cocos2d::Vec2 windowSize); //重载，主要是方便直接用Data* 初始化
 		virtual bool init();
 		virtual void onEnter(); //这里检测isLoaded
-		virtual void setAutoFire(HelloWorld *scene); //通知各武器开火,这个函数必须在添加场景以后执行！
+		virtual void setAutoFire(FightScene *scene); //通知各武器开火,这个函数必须在添加场景以后执行！
 		CREATE_FUNC(Fighter);
 		virtual void getDamage(float damage);//碰撞后调用，自动减少相应的生命值
 		virtual void destory(); //如果要继承，在最后调用
@@ -48,7 +48,7 @@ namespace game {
 		Data* config; //保存自己的数据
 		DataLoader* pGameDataLoader, *pUserDataLoader;
 		cocos2d::Vec2 windowSize; //可用于判断飞机是否出界
-		HelloWorld* pScene; //用于碰撞判定
+		FightScene* pScene; //用于碰撞判定
 		//用于敌我阵营识别
 		ally fAlly;
 	};

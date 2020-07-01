@@ -6,12 +6,12 @@
 #ifndef __WEAPON_H__
 #define __WEAPON_H__
 
-#include "HelloWorldScene.h"
+#include "FightScene.h"
 #include "cocos2d.h"
 #include "Data.h"
 #include <string>
 
-class HelloWorld;
+class FightScene;
 
 namespace game {
 	enum ally{player, enemy}; //敌我阵营判断，这个是为所有Fighter/player都认可的
@@ -33,14 +33,14 @@ namespace game {
 		//武器被添加前必须调用loadWeapon，用来初始化武器的配置,windowsSize用于判断武器是否超出边框，这个判定也是受配置影响的
 		virtual bool loadWeapon(Data* pConfig,Data* pData, ally wAlly, cocos2d::Vec2 windowSize);
 		//武器发射或开启伤害模式,重载时需要调用父函数
-		virtual void activate(HelloWorld *scene);
+		virtual void activate(FightScene *scene);
 		CREATE_FUNC(Weapon);
 	protected:
 		bool isLoaded; //是否在enter前调用过loadWeapon，如果没有，则输出错误信息
 		Data* config; //保存自己的那份Data
 		std::string texturePath;
 		cocos2d::Vec2 windowSize;
-		HelloWorld *pScene;//碰撞判定用，给子弹加的
+		FightScene *pScene;//碰撞判定用，给子弹加的
 	};
 
 }

@@ -4,7 +4,7 @@
 #include "Weapon.h"
 #include "cocos2d.h"
 #include "Data.h"
-#include "HelloWorldScene.h"
+#include "FightScene.h"
 namespace game {
 
 	class WeaponBullet : public Weapon
@@ -18,7 +18,7 @@ namespace game {
 		//重写onEnter设置动画
 		void onEnter();
 		//重写activate实现子弹的移动功能
-		void activate(HelloWorld *scene);
+		void activate(FightScene *scene);
 		//自身摧毁
 		void destroy();
 		//重写create

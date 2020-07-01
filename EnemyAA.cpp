@@ -3,12 +3,12 @@
 
 USING_NS_CC;
 
-void game::EnemyAA::setAutoFire(HelloWorld *scene)
+void game::EnemyAA::setAutoFire(FightScene *scene)
 {
 	//调用父类方法(启动武器)
 	Fighter::setAutoFire(scene);
 	//添加碰撞判定：敌机
-	scene->setEnemyFighters(HelloWorld::setFlag::reigster, this);
+	scene->setEnemyFighters(FightScene::setFlag::reigster, this);
 	//将自身旋转180度(因为是与player方向相反
 	this->setRotation(180.0);
 	//随机设置瀑布式掉落

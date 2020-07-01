@@ -58,7 +58,7 @@ bool game::Level::loadLevel(DataLoader * saveDL, DataLoader * configDL, int leve
 	return true;
 }
 
-void game::Level::activate(HelloWorld *pScene) 
+void game::Level::activate(FightScene *pScene) 
 {
 	cocos2d::log("Level activated.");
 	//初始化随机数生成器

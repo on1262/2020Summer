@@ -1,6 +1,11 @@
 * player_data
 userName=chen
 machinePart=0
+* storage
+weapon=weapon_1
+weapon=weapon_1
+weapon=weapon_1
+gem=gem_3
 * fighter_1
 fighterType=player
 fighterName=playerFighter
@@ -14,11 +19,31 @@ health=100
 engineEnergy=1.09
 * weapon_1
 weaponType=gun
-rpm=5
+attribute=rpm
+attr_rpm=5
+coef_rpm=0.02
+gem=gem_1
+gem=gem_2
+* gem_1
+gemType=linear
+gemValue=7.9
+gemPrice=2
+* gem_2
+gemType=advanced
+gemValue=8
+gemPrice=56
+* gem_3
+gemType=advanced
+gemValue=6.6
+gemPrice=30
 * weapon_2
 weaponType=bullet
-bulletSpeed=10
-damage=10
+attribute=bulletSpeed
+attribute=damage
+attr_bulletSpeed=10
+coef_bulletSpeed=0.1
+attr_damage=10
+coef_damage=0.2
 * level_1
 relativeDifficulty=1
 timeDifficulty=1

@@ -12,7 +12,7 @@ namespace game {
 	{
 	public:
 		//在启动的时候会设置一些动作，并且方向也是相反的
-		void setAutoFire(HelloWorld *scene);
+		void setAutoFire(FightScene *scene);
 		CREATE_FUNC(EnemyAA);
 		static float getRandom(float start, float end);
 	};

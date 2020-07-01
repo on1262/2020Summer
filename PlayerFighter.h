@@ -21,7 +21,7 @@ namespace game {
 		void PlayerFighter::fighterStopCallback(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 		void PlayerFighter::fighterMoveCallback(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 		//添加碰撞的敌我识别
-		void setAutoFire(HelloWorld *scene);
+		void setAutoFire(FightScene *scene);
 	};
 }
 #endif __PLAYERFIGHTER_H__ //__PLAYERFIGHTER_H__

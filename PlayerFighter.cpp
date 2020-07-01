@@ -45,7 +45,7 @@ void game::PlayerFighter::fighterMoveCallback(EventKeyboard::KeyCode keyCode, Ev
 	}
 }
 
-void game::PlayerFighter::setAutoFire(HelloWorld * scene)
+void game::PlayerFighter::setAutoFire(FightScene * scene)
 {
 	//因为玩家的飞机是直接添加为Fighter*的，所以不需要做敌我识别
 	Fighter::setAutoFire(scene);

@@ -23,7 +23,7 @@ namespace game {
 		CREATE_FUNC(Level);
 		//加载关卡信息
 		bool loadLevel(DataLoader * saveDL, DataLoader * configDL, int levelID,float playerFactor, cocos2d::Vec2 windowSize);
-		void activate(HelloWorld *scene); //开始关卡，这个要在添加Level以后调用（前面可以放一些剧情之类的）
+		void activate(FightScene *scene); //开始关卡，这个要在添加Level以后调用（前面可以放一些剧情之类的）
 		//每3秒的回调函数
 		void batchCallback(float);
 		//3秒内的创建fighter回调函数
@@ -39,7 +39,7 @@ namespace game {
 		int relativeDifficulty;
 		int timeDifficulty;
 		float playerFactor; //玩家装备、战绩对难度的修正
-		HelloWorld *pScene;//碰撞判定用，给飞机注册的
+		FightScene *pScene;//碰撞判定用，给飞机注册的
 		//***一些预设数据
 		int stageNumber;
 		int batchNumber;

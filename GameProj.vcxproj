@@ -155,8 +155,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="DataLoader.cpp" />
     <ClCompile Include="EnemyAA.cpp" />
     <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="FitWeaponWindow.cpp" />
     <ClCompile Include="gem.cpp" />
-    <ClCompile Include="HelloWorldScene.cpp" />
+    <ClCompile Include="FightScene.cpp" />
     <ClCompile Include="LanguageManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
@@ -176,8 +177,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="DataLoader.h" />
     <ClInclude Include="EnemyAA.h" />
     <ClInclude Include="Fighter.h" />
+    <ClInclude Include="FitWeaponWindow.h" />
     <ClInclude Include="gem.h" />
-    <ClInclude Include="HelloWorldScene.h" />
+    <ClInclude Include="FightScene.h" />
     <ClInclude Include="LanguageManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="main.h" />

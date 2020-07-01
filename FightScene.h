@@ -22,8 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __HELLOWORLD_SCENE_H__
-#define __HELLOWORLD_SCENE_H__
+#ifndef __FIGHTSCENE_H__
+#define __FIGHTSCENE_H__
 
 #include "cocos2d.h"
 #include "DataLoader.h"
@@ -32,7 +32,7 @@
 #include <vector>
 
 
-class HelloWorld : public cocos2d::Scene
+class FightScene : public cocos2d::Scene
 {
 public:
 	//添加文件存取器:游戏设定读取和用户数据读取
@@ -64,7 +64,7 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
 
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(FightScene);
 };
 
-#endif __HELLOWORLD_SCENE_H__// __HELLOWORLD_SCENE_H__
+#endif __FIGHTSCENE_H__// __FIGHTSCENE_H__

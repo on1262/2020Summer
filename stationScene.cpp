@@ -13,16 +13,17 @@ void stationScene::setDataLoader(game::DataLoader * pGame, game::DataLoader * pU
 
 bool stationScene::init()
 {
-	//初始化面板打开状态
-	isFitWeaponOpened = false;
-	isFitShipOpened = false;
-	isStorageOpened = false;
-	isStarMapOpened = false;
-	isSaveOpened = false;
 
+	//初始化面板打开状态
+	this->fitWeapon = nullptr;
 	this->isLoaded = false; //设置
 	this->pGameDataLoader = nullptr;
 	this->pUserDataLoader = nullptr;
+	// @test 这几行代码是测试代码
+	//文件存取器初始化:userDataLoader和gameDataLoader
+	this->pGameDataLoader = new game::DataLoader(std::string("gameData//"), std::string("gameData.txt"));
+	this->pUserDataLoader = new game::DataLoader(std::string("save//"), std::string("save_1.txt"));
+
 	return Scene::init(); //执行父函数
 }
 
@@ -73,11 +74,13 @@ void stationScene::onEnter()
 
 void stationScene::chickFitWeaponWindow()
 {
-	if (isFitWeaponOpened) {
 
+	if (fitWeapon == nullptr) {
+		cocos2d::log("INFO: create fit weapon window");
+		fitWeapon = game::FitWeaponWindow::create(this);
+		this->addChild(fitWeapon);
 	}
-	cocos2d::log("Chicked!");
-	//Director::getInstance()->end();
+
 }
 
 void stationScene::chickFitShipWindow()
@@ -98,9 +101,5 @@ void stationScene::chickSaveWindow()
 
 void stationScene::closeAll() //关闭所有窗口
 {
-	if (isFitWeaponOpened) chickFitShipWindow();
-	if (isFitShipOpened) chickFitShipWindow();
-	if (isStorageOpened) chickStorageWindow();
-	if (isStarMapOpened) chickSaveWindow();
-	if (isSaveOpened) chickSaveWindow();
+	if (fitWeapon == nullptr) chickFitWeaponWindow();
 }

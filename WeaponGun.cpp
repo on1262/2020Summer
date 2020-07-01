@@ -20,7 +20,7 @@ bool game::WeaponGun::loadWeapon(Data* pConfig, Data* pData, ally wAlly, cocos2d
 	return false;
 }
 
-void game::WeaponGun::activate(HelloWorld *scene) //activate一定要在创建节点树以后调用！
+void game::WeaponGun::activate(FightScene *scene) //activate一定要在创建节点树以后调用！
 {
 	Weapon::activate(scene);
 	//武器不参与碰撞判定，所以这里不用加

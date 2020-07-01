@@ -3,6 +3,9 @@
 
 #include "cocos2d.h"
 #include "DataLoader.h"
+#include "FitWeaponWindow.h"
+
+
 
 /*维修仓场景，包含一个UI界面，用于武器装配、存档、打开仓库、打开星图等按钮*/
 class stationScene :
@@ -28,11 +31,8 @@ public:
 	void closeAll(); //用于切换
 private:
 	//切换面板选项时用
-	bool isFitWeaponOpened;
-	bool isFitShipOpened;
-	bool isStorageOpened;
-	bool isStarMapOpened;
-	bool isSaveOpened;
+	game::FitWeaponWindow* fitWeapon;
+
 };
 
 #endif __STATIONSCENE_H__ // __STATIONSCENE_H__

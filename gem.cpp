@@ -4,15 +4,18 @@
 
 gem * gem::getGem(game::Data * pData)
 {
-	gem* g = nullptr;
+	gem* g = new gem;
 	//初始化
 	try {
+		std::string name = pData->m_label;
 		std::string t = pData->findPairByKey("gemType")->value;
 		float v = pData->valueConvert<float>(pData->findPairByKey("gemValue")->value);
 		int p = pData->valueConvert<int>(pData->findPairByKey("gemPrice")->value);
-		cocos2d::Texture2D* t2D  = cocos2d::Director::getInstance()->getTextureCache()->addImage(gem::getPicturePath(t));
-		g = gem::create();
-		g->setTexture(t2D);
+		//赋值
+		g->instanceName = name;
+		g->type = t;
+		g->value = v;
+		g->price = p;
 	}
 	catch (...) {
 		cocos2d::log("Error: Failed in loading gem");
@@ -21,18 +24,18 @@ gem * gem::getGem(game::Data * pData)
 
 }
 
-float gem::getGain(std::vector<gem>* vec)
+float gem::getGain(std::vector<gem*>* vec)
 {
 	/*这部分涉及到游戏性, 根据一个列表得到总增益*/
 	float linearAverage = 0.0;
 	int linearCount = 0;
 	bool isAdvancedExist = false;
 	for (auto i = vec->begin(); i != vec->end(); i++) { //计算linear平均值
-		if (i->type == "linear") {
-			linearAverage += i->value;
+		if ((*i)->type == "linear") {
+			linearAverage += (*i)->value;
 			linearCount++;
 		} 
-		if (i->type == "advanced") {
+		if ((*i)->type == "advanced") {
 			isAdvancedExist = true;
 		}
 	}
@@ -42,8 +45,8 @@ float gem::getGain(std::vector<gem>* vec)
 	float advancedGain = 0.0;
 	if (isAdvancedExist == true) {
 		for (auto i = vec->begin(); i != vec->end(); i++) {
-			if (i->type == "advanced") {
-				advancedGain += i->getAdvancedGain(linearAverage);
+			if ((*i)->type == "advanced") {
+				advancedGain += (*i)->getAdvancedGain(linearAverage);
 			}
 		}
 		return advancedGain; 
@@ -69,6 +72,20 @@ std::string gem::getPicturePath(std::string type)
 	}
 	cocos2d::log("Error: getGemPath with undefined type");
 	return std::string("no founded type");
+}
+
+gem::gem()
+{
+	this->iconRef = nullptr;
+}
+
+cocos2d::ui::Button* gem::getGemIcon()
+{
+	//按照gem的类型区分
+	auto icon = cocos2d::ui::Button::create(gem::getPicturePath(this->type),"");
+	icon->setAnchorPoint(cocos2d::Vec2(0.5,0.5));
+	this->iconRef = icon; //用于识别icon对应的gem
+	return icon;
 }
 
 inline float gem::getAdvancedGain(float average)

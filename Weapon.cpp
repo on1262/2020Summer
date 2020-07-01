@@ -1,5 +1,5 @@
 #include "Weapon.h"
-#include "HelloWorldScene.h"
+#include "FightScene.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -42,7 +42,7 @@ bool game::Weapon::loadWeapon(game::Data * pConfig,game::Data* pData, ally wAlly
 
 //武器发射或开启伤害模式,重载时需要调用父函数
 
-void game::Weapon::activate(HelloWorld * scene) //管理武器的启动状态（动画，伤害设定）
+void game::Weapon::activate(FightScene * scene) //管理武器的启动状态（动画，伤害设定）
 {
 	//这里统一注册，但是在重写的函数中需要调用注册方法！
 	this->pScene = scene;

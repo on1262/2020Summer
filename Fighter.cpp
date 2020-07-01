@@ -91,7 +91,7 @@ void game::Fighter::onEnter()
 	if (this->isLoaded == false) cocos2d::log("Warning: Fighter is not loaded before being added in Scene.");
 }
 
-void game::Fighter::setAutoFire(HelloWorld *scene)
+void game::Fighter::setAutoFire(FightScene *scene)
 {
 	this->pScene = scene;
 	for (auto i = this->portVector->begin(); i != this->portVector->end(); i++) {
@@ -111,7 +111,7 @@ void game::Fighter::destory()
 	//È¡ÏûÅö×²¼ì²â
 	Scene *p1 = Director::getInstance()->getRunningScene();
 	if (this->fAlly == ally::enemy) {
-		bool result = this->pScene->setEnemyFighters(HelloWorld::setFlag::cancel, this);
+		bool result = this->pScene->setEnemyFighters(FightScene::setFlag::cancel, this);
 		if (result == false) {
 			cocos2d::log("Warning: error in canceling collision detection for enemy fighter");
 		}

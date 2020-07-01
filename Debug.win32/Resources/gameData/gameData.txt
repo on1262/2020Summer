@@ -5,5 +5,8 @@ port_1=gun
 texturePath=enemy1.png
 * gun
 texturePath=gun1.png
+attribute=rpm
 * bullet
 texturePath=bullet1.png
+attribute=bulletSpeed
+attribute=damage

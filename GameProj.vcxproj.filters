@@ -28,6 +28,9 @@
     <Filter Include="language">
       <UniqueIdentifier>{bd24d264-b13e-461d-9ea1-8943509f9524}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{9c4b56f4-1fb6-4d97-927c-77d93155d4f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,9 +60,6 @@
     <ClCompile Include="Fighter.cpp">
       <Filter>fighter</Filter>
     </ClCompile>
-    <ClCompile Include="HelloWorldScene.cpp">
-      <Filter>scene</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>base</Filter>
     </ClCompile>
@@ -86,6 +86,12 @@
     </ClCompile>
     <ClCompile Include="LanguageManager.cpp">
       <Filter>language</Filter>
+    </ClCompile>
+    <ClCompile Include="FitWeaponWindow.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="FightScene.cpp">
+      <Filter>scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +123,6 @@
     <ClInclude Include="Fighter.h">
       <Filter>fighter</Filter>
     </ClInclude>
-    <ClInclude Include="HelloWorldScene.h">
-      <Filter>scene</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>base</Filter>
     </ClInclude>
@@ -149,6 +152,12 @@
     </ClInclude>
     <ClInclude Include="LanguageManager.h">
       <Filter>language</Filter>
+    </ClInclude>
+    <ClInclude Include="FitWeaponWindow.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="FightScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "HelloWorldScene.h"
+#include "FightScene.h"
 
 #include "SimpleAudioEngine.h"
  /*下面这部分是移植到新scene需要的*/
@@ -51,7 +51,7 @@ USING_NS_CC;
 *任何友好物的tag都会是1000/2000/2001-2100/20000以后
 **********/
 
-bool HelloWorld::detectCollision(Node* node1, Node* node2)
+bool FightScene::detectCollision(Node* node1, Node* node2)
 {
 	if (node1 == nullptr || node2 == nullptr) { //如果找不到player的飞机
 		log("Info: Warning: use nullptr to detect collision.");
@@ -67,7 +67,7 @@ bool HelloWorld::detectCollision(Node* node1, Node* node2)
 	return false;
 }
 //这里应该可以用泛型？之后再重构
-bool HelloWorld::setEnemyFighters(setFlag f, game::Fighter * e)
+bool FightScene::setEnemyFighters(setFlag f, game::Fighter * e)
 {
 	if (f == setFlag::reigster) {
 		for (auto i = this->activatedEnemyFighters->begin(); i != activatedEnemyFighters->end(); i++) {
@@ -92,7 +92,7 @@ bool HelloWorld::setEnemyFighters(setFlag f, game::Fighter * e)
 	return false;
 }
 
-bool HelloWorld::setEnemyBullets(setFlag f, game::Weapon * eb)
+bool FightScene::setEnemyBullets(setFlag f, game::Weapon * eb)
 {
 	if (f == setFlag::reigster) {
 		for (auto i = this->activatedEnemyBullets->begin(); i != activatedEnemyBullets->end(); i++) {
@@ -117,7 +117,7 @@ bool HelloWorld::setEnemyBullets(setFlag f, game::Weapon * eb)
 	return false;
 }
 
-bool HelloWorld::setPlayerBullets(setFlag f, game::Weapon * pb)
+bool FightScene::setPlayerBullets(setFlag f, game::Weapon * pb)
 {
 	if (f == setFlag::reigster) {
 		for (auto i = this->activatedPlayerBullets->begin(); i != activatedPlayerBullets->end(); i++) {
@@ -142,7 +142,7 @@ bool HelloWorld::setPlayerBullets(setFlag f, game::Weapon * pb)
 	return false;
 }
 
-void HelloWorld::update(float delta)
+void FightScene::update(float delta)
 {
 	if (this->isCollisionDetectionOpen == false) {
 		log("Info: Collision detection closed.");
@@ -196,20 +196,20 @@ void HelloWorld::update(float delta)
 
 /*以下都是有关碰撞池的签入和注销*/
 
-Scene* HelloWorld::createScene()
+Scene* FightScene::createScene()
 {
-	return HelloWorld::create();
+	return FightScene::create();
 }
 
 // Print useful error message instead of segfaulting when files are not there.
 static void problemLoading(const char* filename)
 {
 	printf("Error while loading: %s\n", filename);
-	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
+	printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in FightScene.cpp\n");
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool FightScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -229,7 +229,7 @@ bool HelloWorld::init()
 	auto closeItem = MenuItemImage::create(
 		"CloseNormal.png",
 		"CloseSelected.png",
-		CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+		CC_CALLBACK_1(FightScene::menuCloseCallback, this));
 
 	if (closeItem == nullptr ||
 		closeItem->getContentSize().width <= 0 ||
@@ -260,7 +260,7 @@ bool HelloWorld::init()
 	return true;
 }
 
-void HelloWorld::onEnter()
+void FightScene::onEnter()
 {
 	Scene::onEnter();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -314,7 +314,7 @@ void HelloWorld::onEnter()
 	*/
 }
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void FightScene::menuCloseCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
 	Director::getInstance()->end();

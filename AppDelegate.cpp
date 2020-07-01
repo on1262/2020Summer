@@ -24,7 +24,7 @@
 
 #include "AppDelegate.h"
 //³¡¾°
-#include "HelloWorldScene.h"
+#include "FightScene.h"
 #include "stationScene.h"
 
 
