@@ -157,10 +157,10 @@ void game::DataLoader::loadAnimation(std::string animationName,std::string pngPr
 	auto anim = cocos2d::Animation::create();
 	for (int i = 1; i <= frameCount; i++)
 	{
-		//char buf[200];
-		//_fullpath(buf, ".\\", 200);
+		char buf[200];
+		_fullpath(buf, ".\\", 200);
 
-		std::string path = "F://Project//2020SummerGame//GameProj//Resources//" + pngPreffix + std::to_string(i) + pngSuffix + ".png";
+		std::string path = std::string(buf) + "//" + pngPreffix + std::to_string(i) + pngSuffix + ".png";
 		cocos2d::log(path.c_str());
 		anim->addSpriteFrameWithFile(path);
 	}

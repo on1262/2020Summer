@@ -123,8 +123,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	//这里开始执行自定义代码
 	//director->setProjection(kCCDirectorProjection2D); //好像可以提高动画质量
-	//加载中文字段
-	auto scene = stationScene::create();
+	// @test 这里根据场景不同进行加载
+	auto scene = game::FightScene::create();
     // run
     director->runWithScene(scene);
 

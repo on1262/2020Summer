@@ -1,12 +1,21 @@
 * player
-texturePath=fighter1.png
+texturePath=fighter//fighter-1.png
 port_1=gun
 * enemyAA
-texturePath=enemy1.png
+texturePath=fighter//fighter-2.png
 * gun
-texturePath=gun1.png
+texturePath=gun//gun-default.png
 attribute=rpm
 * bullet
-texturePath=bullet1.png
+texturePath=bullet//bullet-1.png
 attribute=bulletSpeed
 attribute=damage
+* drop_1
+texturePath=texturePath=gun//gun-1.png
+weaponType=gun
+attribute=rpm
+attr_rpm=5
+* gem_blue
+texturePath=gem//gem-blue.png
+* gem_purple
+texturePath=gem//gem-purple.png

@@ -17,6 +17,18 @@ void game::EnemyAA::setAutoFire(FightScene *scene)
 	this->runAction(cocos2d::EaseIn::create(cocos2d::MoveBy::create(2, cocos2d::Vec2(0, -2*windowSize.y)),1.0));
 }
 
+void game::EnemyAA::getDamage(float damage)
+{
+	health -= damage;
+	if (health <= 0) this->destroy();
+}
+
+void game::EnemyAA::destroyCallback()
+{
+	//爆出宝石和武器
+	pScene->level->generateDropItem(2, this->getPosition());
+}
+
 float game::EnemyAA::getRandom(float start, float end) { //生成（start,end）开区间内的浮点数，如果想得到1-100值，将start设为1，将end设为100
 
 	float i = start + (end - start)*rand() / (RAND_MAX + 1.0);

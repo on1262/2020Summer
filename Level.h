@@ -8,6 +8,7 @@
 #include "Fighter.h"
 #include <vector>
 #include <string>
+#include "dropIcon.h"
 namespace game {
 	//这个结构用来存储3个string组成的enemy类型描述
 	struct enemyType {
@@ -28,6 +29,10 @@ namespace game {
 		void batchCallback(float);
 		//3秒内的创建fighter回调函数
 		void fighterEnterCallback(float);
+		//在指定位置创建掉落物
+		void generateDropItem(int count, cocos2d::Vec2 position);
+		//添加战利品
+		void addDropItem(dropItem di);
 		//工具，更新runningBatch和stage
 		void updateBatch();
 		//工具，得到1-100的随机整数
@@ -45,7 +50,9 @@ namespace game {
 		int batchNumber;
 		int batchTime;
 		//***
-		std::vector<enemyType>* enemyTypeVec;
+		std::vector<enemyType>* enemyTypeVec; //存储备选的enemyType
+		std::vector<dropItem>* dropItemVec; //存储备选的掉落物
+		std::vector<dropItem>* spoils; //存储玩家获得的战利品
 		cocos2d::Vec2 windowSize;
 		//关卡运行时信息
 		bool isStageStopped; //BOSS生成时和被击败时都要通知level
@@ -53,7 +60,6 @@ namespace game {
 		int runningBatch; //正在跑的批次，注意batch取值1-5,到5时需要重置batch， 0代表关卡结束
 		std::vector<Fighter*> *waitingList; //给回调函数的，需要添加的enemy 
 		int runningEnemyTag; //从3000开始更新最新敌机的分配tag,这个tag不可以超过20000
-		
 	};
 }
 #endif __LEVEL_H__ //__LEVEL_H__

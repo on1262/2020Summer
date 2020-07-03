@@ -26,16 +26,12 @@
 
 #include "SimpleAudioEngine.h"
  /*下面这部分是移植到新scene需要的*/
-#include "cocos2d.h"
-#include "PlayerFighter.h"
-#include "Fighter.h"
-#include "Weapon.h"
 #include "WeaponBullet.h"
 #include "DataLoader.h"
 #include "Data.h"
-#include "Level.h"
 #include <vector>
 #include "PlanetGenerator.h"
+#include "PlayerFighter.h"
 /*********************************/
 
 USING_NS_CC;
@@ -51,7 +47,28 @@ USING_NS_CC;
 *任何友好物的tag都会是1000/2000/2001-2100/20000以后
 **********/
 
-bool FightScene::detectCollision(Node* node1, Node* node2)
+float game::FightScene::getPlayerHealth()
+{
+	if (this->playerFighter != nullptr) return this->playerFighter->health;
+	else return 0.0f;
+}
+
+float game::FightScene::getPlayerShield()
+{
+	if(this->playerFighter == nullptr) return 0.0f;
+	auto pf = dynamic_cast<PlayerFighter*>(playerFighter);
+	if (pf != nullptr) return pf->shield;
+	return 0.0f;
+}
+
+int game::FightScene::getEnemyFighterCount()
+{
+	//用碰撞判定的数据作为敌机数量
+	return this->activatedEnemyFighters->size();
+}
+
+
+bool game::FightScene::detectCollision(Node* node1, Node* node2)
 {
 	if (node1 == nullptr || node2 == nullptr) { //如果找不到player的飞机
 		log("Info: Warning: use nullptr to detect collision.");
@@ -66,8 +83,94 @@ bool FightScene::detectCollision(Node* node1, Node* node2)
 	if (fixedNode1Rect.intersectsRect(fixedNode2Rect)) return true;
 	return false;
 }
+
+bool game::FightScene::detectCollision(Node * node1, Vec2 node2pos)
+{
+	if (node1 == nullptr) {
+		cocos2d::log("Warning: call detectCollision with nullptr");
+		return false;
+	}
+	return node1->getBoundingBox().containsPoint(node2pos);
+}
+
+void game::FightScene::EnemyFighterWithPlayerCollision()
+{
+	//检测enemy是否和player碰撞
+	for (auto ef = this->activatedEnemyFighters->begin(); ef != activatedEnemyFighters->end(); ef++) {
+		if (this->detectCollision(playerFighter, *ef) == true) {
+			this->playerFighter->getDamage(10);
+			(*ef)->getDamage(110);
+			break; //同一时间只检测一个fighter即可
+		}
+	}
+}
+
+void game::FightScene::EnemyBulletWithPlayerCollision()
+{
+	//检测enemyBullet是否和player碰撞
+	for (auto eb = this->activatedEnemyBullets->begin(); eb != activatedEnemyBullets->end(); eb++) {
+		if (this->detectCollision(playerFighter, *eb) == true) {
+			//强制类型转换
+			try {
+				game::WeaponBullet* pb = dynamic_cast<game::WeaponBullet*>(*eb);
+				playerFighter->getDamage(pb->damage); //获得敌子弹的伤害
+				log(("player get damage, health=" + std::to_string(playerFighter->health)).c_str());
+			}
+			catch (...) {
+				log("Error: can not get WeaponBullet* by dynamic_cast.");
+			}
+			break;
+		}
+	}
+}
+
+void game::FightScene::EnemyWithPlayerBulletCollision()
+{
+	//检测playerBullet是否和enemy碰撞
+	for (auto pb = this->activatedPlayerBullets->begin(); pb != activatedPlayerBullets->end(); pb++) {
+		for (auto e = this->activatedEnemyFighters->begin(); e != activatedEnemyFighters->end(); e++) {
+			if (this->detectCollision(*e, *pb) == true) {
+				//强制类型转换
+				try {
+					game::WeaponBullet* playerbullet = dynamic_cast<game::WeaponBullet*>(*pb);
+					playerbullet->destroy(); //子弹销毁
+					(*e)->destroy();//飞机销毁
+					return;
+				}
+				catch (...) {
+					log("Error: can not get WeaponBullet* by dynamic_cast.");
+				}
+				break;
+			}
+		}
+	}
+}
+
+void game::FightScene::dropIconWithPlayerCollision()
+{
+
+	auto iter = this->activatedDropIcons->end();
+	//检测player是否和dropItem碰撞
+	for (auto di = this->activatedDropIcons->begin(); di != this->activatedDropIcons->end(); di++) {
+		if (this->detectCollision(playerFighter, (*di)->getPosition()) == true) {
+			//将icon的struct添加到战利品中
+			this->level->addDropItem((*di)->_dropItem);
+			//添加信息到面板上
+			if ((*di)->_dropItem._dropType == dropType::gemType) this->getGemCount++;
+			if ((*di)->_dropItem._dropType == dropType::weaponType) this->getWeaponCount++;
+			//注销碰撞检测
+			iter = di;
+			//销毁icon
+			(*di)->destroy();
+			break;
+		}
+	}
+	if (iter != this->activatedDropIcons->end()) this->activatedDropIcons->erase(iter);
+}
+
+
 //这里应该可以用泛型？之后再重构
-bool FightScene::setEnemyFighters(setFlag f, game::Fighter * e)
+bool game::FightScene::setEnemyFighters(setFlag f, game::Fighter * e)
 {
 	if (f == setFlag::reigster) {
 		for (auto i = this->activatedEnemyFighters->begin(); i != activatedEnemyFighters->end(); i++) {
@@ -92,7 +195,7 @@ bool FightScene::setEnemyFighters(setFlag f, game::Fighter * e)
 	return false;
 }
 
-bool FightScene::setEnemyBullets(setFlag f, game::Weapon * eb)
+bool game::FightScene::setEnemyBullets(setFlag f, game::Weapon * eb)
 {
 	if (f == setFlag::reigster) {
 		for (auto i = this->activatedEnemyBullets->begin(); i != activatedEnemyBullets->end(); i++) {
@@ -117,7 +220,7 @@ bool FightScene::setEnemyBullets(setFlag f, game::Weapon * eb)
 	return false;
 }
 
-bool FightScene::setPlayerBullets(setFlag f, game::Weapon * pb)
+bool game::FightScene::setPlayerBullets(setFlag f, game::Weapon * pb)
 {
 	if (f == setFlag::reigster) {
 		for (auto i = this->activatedPlayerBullets->begin(); i != activatedPlayerBullets->end(); i++) {
@@ -142,7 +245,32 @@ bool FightScene::setPlayerBullets(setFlag f, game::Weapon * pb)
 	return false;
 }
 
-void FightScene::update(float delta)
+bool game::FightScene::setIcons(setFlag f, game::dropIcon * di)
+{
+	if (f == setFlag::reigster) {
+		//这里少了重复icon的检测
+		//TODO: 重复性检测
+		this->activatedDropIcons->push_back(di);
+		return true;
+	} 
+	else if (f == setFlag::cancel) {
+		auto iter = this->activatedDropIcons->begin();
+		bool isFound = false;
+		for (auto i = this->activatedDropIcons->begin(); i != this->activatedDropIcons->end(); i++) {
+			if ((*i) == di) {
+				iter = i;
+				isFound = true;
+				break;
+			}
+		}
+		this->activatedDropIcons->erase(iter);
+		if (isFound = false) cocos2d::log("Warning: can not find icons in deleting iter of vector");
+		return isFound;
+	}
+	return false;
+}
+
+void game::FightScene::update(float delta)
 {
 	if (this->isCollisionDetectionOpen == false) {
 		log("Info: Collision detection closed.");
@@ -151,52 +279,17 @@ void FightScene::update(float delta)
 	if (this->playerFighter == nullptr) { //如果玩家不存在，就不进行碰撞检测（死后的瞬间？）
 		return;
 	}
-	//检测enemy是否和player碰撞
-	for (auto ef = this->activatedEnemyFighters->begin(); ef != activatedEnemyFighters->end(); ef++) {
-		if (this->detectCollision(playerFighter, *ef) == true) {
-			//this->playerFighter->getDamage(0);
-			(*ef)->getDamage(110);
-			break; //同一时间只检测一个fighter即可
-		}
-	}
-	//检测enemyBullet是否和player碰撞
-	for (auto eb = this->activatedEnemyBullets->begin(); eb != activatedEnemyBullets->end(); eb++) {
-		if (this->detectCollision(playerFighter, *eb) == true) {
-			//强制类型转换
-			try {
-				game::WeaponBullet* pb = dynamic_cast<game::WeaponBullet*>(*eb);
-				playerFighter->getDamage(pb->damage); //获得敌子弹的伤害
-				log(("player get damage, health=" + std::to_string(playerFighter->health)).c_str());
-			}
-			catch (...) {
-				log("Error: can not get WeaponBullet* by dynamic_cast.");
-			}
-			break;
-		}
-	}
-	//检测playerBullet是否和enemy碰撞
-	for (auto pb = this->activatedPlayerBullets->begin(); pb != activatedPlayerBullets->end(); pb++) {
-		for (auto e = this->activatedEnemyFighters->begin(); e != activatedEnemyFighters->end(); e++) {
-			if (this->detectCollision(*e, *pb) == true) {
-				//强制类型转换
-				try {
-					game::WeaponBullet* playerbullet = dynamic_cast<game::WeaponBullet*>(*pb);
-					playerbullet->destroy(); //子弹销毁
-					(*e)->destory();//飞机销毁
-					return;
-				}
-				catch (...) {
-					log("Error: can not get WeaponBullet* by dynamic_cast.");
-				}
-				break;
-			}
-		}
-	}
+	//碰撞检测模块
+	EnemyFighterWithPlayerCollision();
+	EnemyBulletWithPlayerCollision();
+	EnemyWithPlayerBulletCollision();
+	dropIconWithPlayerCollision();
+	
 }
 
 /*以下都是有关碰撞池的签入和注销*/
 
-Scene* FightScene::createScene()
+Scene* game::FightScene::createScene()
 {
 	return FightScene::create();
 }
@@ -209,46 +302,15 @@ static void problemLoading(const char* filename)
 }
 
 // on "init" you need to initialize your instance
-bool FightScene::init()
+bool game::FightScene::init()
 {
-	//////////////////////////////
-	// 1. super init first
+
 	if (!Scene::init())
 	{
 		return false;
 	}
 
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(FightScene::menuCloseCallback, this));
-
-	if (closeItem == nullptr ||
-		closeItem->getContentSize().width <= 0 ||
-		closeItem->getContentSize().height <= 0)
-	{
-		problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-	}
-	else
-	{
-		float x = origin.x + visibleSize.width - closeItem->getContentSize().width / 2;
-		float y = origin.y + closeItem->getContentSize().height / 2;
-		closeItem->setPosition(Vec2(x, y));
-	}
-
-	// create menu, it's an autorelease object
-	auto menu = Menu::create(closeItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
-
+	//窗口大小默认1024*768, 所有的UI，背景都按照这一大小设计，不能更改
 	//文件存取器初始化:userDataLoader和gameDataLoader
 	this->pGameDataLoader = new game::DataLoader(std::string("gameData//"), std::string("gameData.txt"));
 	this->pUserDataLoader = new game::DataLoader(std::string("save//"), std::string("save_1.txt"));
@@ -256,34 +318,45 @@ bool FightScene::init()
 	this->activatedPlayerBullets = new std::vector<game::Weapon*>;
 	this->activatedEnemyFighters = new std::vector<game::Fighter*>;
 	this->activatedEnemyBullets = new std::vector<game::Weapon*>;
-
+	this->activatedDropIcons = new std::vector<game::dropIcon*>;
+	//初始化一些其他参数,避免调试的时候出错
+	this->level = nullptr;
+	this->playerFighter = nullptr;
+	this->fightWindow = nullptr;
+	this->getGemCount = 0;
+	this->destoryedEnemyCount = 0;
+	this->getWeaponCount = 0;
 	return true;
 }
 
-void FightScene::onEnter()
+void game::FightScene::onEnter()
 {
+	cocos2d::log("INFO: fightScene onEnter()");
 	Scene::onEnter();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	//设定测试场景：以下部分仅为测试用
 	Vec2 windowSize = Vec2(visibleSize.width, visibleSize.height);
-	//添加飞机
-	auto player = game::PlayerFighter::create();
+	//添加玩家飞机
+	auto player = PlayerFighter::create();
 	this->playerFighter = player;
 	player->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 	player->loadFighter(pGameDataLoader, pUserDataLoader, 1, game::ally::player, Vec2(visibleSize.width, visibleSize.height));
-	//this->addChild(player);
-	//player->setAutoFire(this); //这个一定要在最后调用
+	this->addChild(player);
+	player->setAutoFire(this); //这个一定要在最后调用
+	cocos2d::log("player loaded");
 	//添加关卡生成器
 	auto levelController = game::Level::create();
 	levelController->loadLevel(pUserDataLoader, pGameDataLoader, 1, 2, windowSize);
 	levelController->setTag(2000);
 	this->addChild(levelController);
-	//levelController->activate(this); //启动关卡生成器
+	this->level = levelController;
+	cocos2d::log("test3");
+	levelController->activate(this); //启动关卡生成器
 	log("Scene loading: levelController activated");
 	//开启碰撞检测，这里用一个参数表示
 	this->isCollisionDetectionOpen = true;
-	//this->scheduleUpdate(); //每帧调用碰撞检测
+	this->scheduleUpdate(); //每帧调用碰撞检测
 	log("Scene loading: collision detection activated.");
 	/*调试代码：行星动画生成器*/
 	PlanetGenerator pg;
@@ -291,9 +364,9 @@ void FightScene::onEnter()
 	for (int i = 1; i < 2; i++) {
 		//pg.generateHeightMap(("_global_" + std::to_string(i)),60,1,100,100,2,i + 2);
 	}
-	pg.setMapSize(192*4 ,256);
+	//pg.setMapSize(192*4 ,256);
 	//pg.generatePlainMap("plainMap_2", 4, 2);
-	/*调试代码，添加特定的动画到scene中*/
+	/*调试代码，添加特定的动画到scene中
 	Sprite* background = cocos2d::Sprite::create("plainMap//plainMap_1.png");
 	this->addChild(background);
 	background->setPosition(Vec2(512,768*2));
@@ -302,7 +375,8 @@ void FightScene::onEnter()
 	this->addChild(background2);
 	background2->setPosition(Vec2(512, 768*6));
 	background2->runAction(MoveBy::create(40, Vec3(0, -768 * 8, 0)));
-	/*
+	*/
+	/* 这一段是关于显示星球动画的，放在starMap里实现
 	game::DataLoader::loadAnimation("globalAnim", "planetGenerator//", "_global_1", 100, 7,-1);
 	game::DataLoader::loadAnimation("globalAnimCloud", "planetGenerator//", "_global_1_cloud",100,8,-1);
 	Sprite* planet = game::DataLoader::runAnimationByName("globalAnim",10);
@@ -312,11 +386,10 @@ void FightScene::onEnter()
 	planet->setNormalizedPosition(cocos2d::Vec2(0.5,0.5)); //云彩在中间显示
 	this->addChild(planetCloud);
 	*/
-}
-
-void FightScene::menuCloseCallback(Ref* pSender)
-{
-	//Close the cocos2d-x game scene and quit the application
-	Director::getInstance()->end();
-
+	/*添加控制面板*/
+	this->fightWindow = game::FightWindow::create(this);
+	this->fightWindow->setAnchorPoint(cocos2d::Vec2::ZERO);
+	this->fightWindow->setPosition(0,50);
+	this->fightWindow->setLocalZOrder(100);
+	this->addChild(fightWindow);
 }

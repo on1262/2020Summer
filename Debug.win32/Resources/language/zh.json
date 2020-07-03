@@ -9,5 +9,7 @@
   "rpm": "射速",
   "bulletSpeed": "初速",
   "damage": "子弹伤害",
-  "gainLabel": "增幅："
+  "gainLabel": "增幅：",
+  "shield": "护盾:",
+  "playerHealth": "性能:"
 }

@@ -2,7 +2,7 @@
 #include "cocos2d.h"
 
 
-gem * gem::getGem(game::Data * pData)
+game::gem * game::gem::getGem(game::Data * pData)
 {
 	gem* g = new gem;
 	//初始化
@@ -24,7 +24,7 @@ gem * gem::getGem(game::Data * pData)
 
 }
 
-float gem::getGain(std::vector<gem*>* vec)
+float game::gem::getGain(std::vector<game::gem*>* vec)
 {
 	/*这部分涉及到游戏性, 根据一个列表得到总增益*/
 	float linearAverage = 0.0;
@@ -57,7 +57,7 @@ float gem::getGain(std::vector<gem*>* vec)
 	return 0.0f;
 }
 
-std::string gem::getPicturePath(std::string type)
+std::string game::gem::getPicturePath(std::string type)
 {
 	std::string gemPath("gem//");
 	if (type.empty() == true) {
@@ -74,12 +74,12 @@ std::string gem::getPicturePath(std::string type)
 	return std::string("no founded type");
 }
 
-gem::gem()
+game::gem::gem()
 {
 	this->iconRef = nullptr;
 }
 
-cocos2d::ui::Button* gem::getGemIcon()
+cocos2d::ui::Button* game::gem::getGemIcon()
 {
 	//按照gem的类型区分
 	auto icon = cocos2d::ui::Button::create(gem::getPicturePath(this->type),"");
@@ -88,7 +88,7 @@ cocos2d::ui::Button* gem::getGemIcon()
 	return icon;
 }
 
-inline float gem::getAdvancedGain(float average)
+inline float game::gem::getAdvancedGain(float average)
 {
 	float f = 0.5;
 	if (average <= this->value + 0.01) f += 0.05*(exp(5 * (average - this->value + 1)));

@@ -1,4 +1,3 @@
-#include "Fighter.h"
 #include "Weapon.h"
 #include "SimpleAudioEngine.h"
 #include "PlayerFighter.h"
@@ -12,13 +11,13 @@ void game::PlayerFighter::fighterMoveCallback(EventKeyboard::KeyCode keyCode, Ev
 	auto fighter = this;
 	//Calculate the distance from fighter to boarder
 	float wDistance = this->windowSize.y - fighter->getPositionY();
-	auto actionW = EaseOut::create(MoveBy::create(0.005 * wDistance, Vec3(0, wDistance, 0)), 0.8);
+	auto actionW = EaseOut::create(MoveBy::create(0.001 * wDistance, Vec3(0, wDistance, 0)), 0.8);
 	float sDistance = fighter->getPositionY();
-	auto actionS = EaseOut::create(MoveBy::create(0.005 * sDistance, Vec3(0, -1.0 * sDistance, 0)), 0.8);
+	auto actionS = EaseOut::create(MoveBy::create(0.001 * sDistance, Vec3(0, -1.0 * sDistance, 0)), 0.8);
 	float aDistance = fighter->getPositionX();
-	auto actionA = EaseOut::create(MoveBy::create(0.005 * aDistance, Vec3(-1.0 * aDistance, 0, 0)), 0.8);
+	auto actionA = EaseOut::create(MoveBy::create(0.001 * aDistance, Vec3(-1.0 * aDistance, 0, 0)), 0.8);
 	float dDistance = this->windowSize.x - fighter->getPositionX();
-	auto actionD = EaseOut::create(MoveBy::create(0.005 * dDistance, Vec3(dDistance, 0, 0)), 0.8);
+	auto actionD = EaseOut::create(MoveBy::create(0.001 * dDistance, Vec3(dDistance, 0, 0)), 0.8);
 
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_W:
@@ -49,6 +48,24 @@ void game::PlayerFighter::setAutoFire(FightScene * scene)
 {
 	//因为玩家的飞机是直接添加为Fighter*的，所以不需要做敌我识别
 	Fighter::setAutoFire(scene);
+}
+
+void game::PlayerFighter::getDamage(float damage)
+{
+	if (damage > this->shield) {
+		shield = 0;
+		this->health -= damage - shield;
+	}
+	else {
+		shield -= (int)damage;
+	}
+	if (health <= 0) this->destroy();
+}
+
+void game::PlayerFighter::destroyCallback()
+{
+	//进入结算画面
+
 }
 
 //WASD移动的实现2
@@ -90,9 +107,11 @@ void game::PlayerFighter::fighterStopCallback(EventKeyboard::KeyCode keyCode, Ev
 void game::PlayerFighter::onEnter()
 {
 	Sprite::onEnter();
+	//初始化一些参数
+	this->shield = 100;
 	//PlayerFighter是特殊的，固定有tag=1000,用于全场的识别
 	this->setTag(1000);
-	//这里添加监听器
+	//添加wasd控制
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(PlayerFighter::fighterMoveCallback, this);
 	listener->onKeyReleased = CC_CALLBACK_2(PlayerFighter::fighterStopCallback, this);

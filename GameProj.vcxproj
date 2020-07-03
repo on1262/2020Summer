@@ -153,8 +153,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="AppDelegate.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DataLoader.cpp" />
+    <ClCompile Include="dropIcon.cpp" />
     <ClCompile Include="EnemyAA.cpp" />
     <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="FightWindow.cpp" />
     <ClCompile Include="FitWeaponWindow.cpp" />
     <ClCompile Include="gem.cpp" />
     <ClCompile Include="FightScene.cpp" />
@@ -164,6 +166,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="PlayerFighter.cpp" />
     <ClCompile Include="PlanetGenerator.cpp" />
+    <ClCompile Include="SettlementWindow.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stationScene.cpp" />
     <ClCompile Include="tinter.cpp" />
@@ -175,8 +178,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="AppDelegate.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DataLoader.h" />
+    <ClInclude Include="dropIcon.h" />
     <ClInclude Include="EnemyAA.h" />
     <ClInclude Include="Fighter.h" />
+    <ClInclude Include="FightWindow.h" />
     <ClInclude Include="FitWeaponWindow.h" />
     <ClInclude Include="gem.h" />
     <ClInclude Include="FightScene.h" />
@@ -188,6 +193,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="PlanetGenerator.h" />
     <ClInclude Include="Reflaction.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SettlementWindow.h" />
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stationScene.h" />
     <ClInclude Include="tinter.h" />

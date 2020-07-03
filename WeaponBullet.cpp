@@ -6,8 +6,8 @@ bool game::WeaponBullet::loadWeapon(Data * pConfig, Data * pData , ally wAlly, c
 	Weapon::loadWeapon(pConfig, pData, wAlly, windowSize); //父函数完成通用部分继承
 	
 	try {
-		this->bulletSpeed = pData->valueConvert<int>(pData->findPairByKey(std::string("bulletSpeed"))->value);
-		this->damage = pData->valueConvert<int>(pData->findPairByKey(std::string("damage"))->value);
+		this->bulletSpeed = pData->valueConvert<int>(pData->findPairByKey(std::string("attr_bulletSpeed"))->value);
+		this->damage = pData->valueConvert<int>(pData->findPairByKey(std::string("attr_damage"))->value);
 		return true;
 	}
 	catch (...) {
@@ -43,7 +43,7 @@ void game::WeaponBullet::activate(FightScene *scene)
 
 void game::WeaponBullet::destroy()
 {
-	if (this->pScene == nullptr) cocos2d::log("Error: Destory fighter with pScene=nullptr");
+	if (this->pScene == nullptr) cocos2d::log("Error: destroyfighter with pScene=nullptr");
 	//取消碰撞检测
 	if (this->weaponAlly == ally::player) {
 		bool result = this->pScene->setPlayerBullets(FightScene::setFlag::cancel, this);

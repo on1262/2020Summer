@@ -93,6 +93,15 @@
     <ClCompile Include="FightScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="FightWindow.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="dropIcon.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SettlementWindow.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -158,6 +167,15 @@
     </ClInclude>
     <ClInclude Include="FightScene.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="FightWindow.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="dropIcon.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="SettlementWindow.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

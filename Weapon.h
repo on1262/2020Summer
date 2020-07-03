@@ -11,9 +11,10 @@
 #include "Data.h"
 #include <string>
 
-class FightScene;
+
 
 namespace game {
+	class FightScene;
 	enum ally{player, enemy}; //敌我阵营判断，这个是为所有Fighter/player都认可的
 
 	class Fighter; //前置声明

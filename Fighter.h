@@ -1,6 +1,5 @@
 #ifndef __FIGHTER_H__
 #define __FIGHTER_H__
-
 #include "FightScene.h"
 #include "cocos2d.h"
 #include "Weapon.h"
@@ -8,9 +7,8 @@
 #include <vector>
 #include <string>
 
-class FightScene;
-
 namespace game {
+	class FightScene;
 	enum ally;
 	class Weapon; //前置声明
 
@@ -40,9 +38,10 @@ namespace game {
 		virtual bool init();
 		virtual void onEnter(); //这里检测isLoaded
 		virtual void setAutoFire(FightScene *scene); //通知各武器开火,这个函数必须在添加场景以后执行！
-		CREATE_FUNC(Fighter);
-		virtual void getDamage(float damage);//碰撞后调用，自动减少相应的生命值
-		virtual void destory(); //如果要继承，在最后调用
+		/*伤害或被摧毁*/
+		virtual void getDamage(float damage)=0;//碰撞后调用，自动减少相应的生命值
+		void destroy();  //碰撞判定调用,播放被摧毁的动画,注销碰撞判定,继承的类只需要重写
+		virtual void destroyCallback()=0; //继承类特异性操作的代码
 	protected:
 		bool isLoaded; //是否执行过loadFighter，防止出错
 		Data* config; //保存自己的数据

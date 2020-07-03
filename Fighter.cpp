@@ -1,9 +1,26 @@
-#include "Reflaction.h"
+
 #include "Fighter.h"
-#include "Weapon.h"
+#include "Reflaction.h"
 #include "SimpleAudioEngine.h"
 #include <string>
 USING_NS_CC;
+
+void game::Fighter::destroy()
+{
+	if (this->pScene == nullptr) cocos2d::log("Error: destroy fighter with pScene=nullptr");
+	//取消碰撞检测
+	if (this->fAlly == ally::enemy) {
+		bool result = this->pScene->setEnemyFighters(FightScene::setFlag::cancel, this);
+		if (result == false) {
+			cocos2d::log("Warning: error in canceling collision detection for enemy fighter");
+		}
+	}
+	this->destroyCallback(); //执行自定义的代码
+	//删除节点对象
+	this->pScene->removeChild(this, false);
+	this->release(); //如果要改写的话，最好在最后调用这个，否则自身就先被release掉了
+	return;
+}
 
 bool game::Fighter::loadFighter(DataLoader* pGameDL, DataLoader* pUserDL, int fighterID, ally wAlly, cocos2d::Vec2 windowSize) //用ID加载一个实例，注意这里要加载设定和实例化参数
 {
@@ -73,7 +90,6 @@ bool game::Fighter::loadFighter(DataLoader * pGameDL, DataLoader * pUserDL, Data
 	cocos2d::log(("Info: load fighter by Data*, fighterID=" + std::to_string(fighterID)).c_str());
 	return this->loadFighter(pGameDL, pUserDL, fighterID, wAlly, windowSize);
 }
-
 bool game::Fighter::init()
 {
 	if (!Sprite::init()) {
@@ -84,7 +100,6 @@ bool game::Fighter::init()
 		return true; 
 	}
 }
-
 void game::Fighter::onEnter()
 {
 	Sprite::onEnter();//调用父函数
@@ -97,36 +112,4 @@ void game::Fighter::setAutoFire(FightScene *scene)
 	for (auto i = this->portVector->begin(); i != this->portVector->end(); i++) {
 		(*i)->activate(this->pScene);
 	}
-}
-
-void game::Fighter::getDamage(float damage)
-{
-	this->health -= (int)damage;
-	if (health <= 0) this->destory();
-}
-
-void game::Fighter::destory()
-{
-	if (this->pScene == nullptr) cocos2d::log("Error: Destory fighter with pScene=nullptr");
-	//取消碰撞检测
-	Scene *p1 = Director::getInstance()->getRunningScene();
-	if (this->fAlly == ally::enemy) {
-		bool result = this->pScene->setEnemyFighters(FightScene::setFlag::cancel, this);
-		if (result == false) {
-			cocos2d::log("Warning: error in canceling collision detection for enemy fighter");
-		}
-	}
-	//添加摧毁动画（这部分是实验性的）
-	CCAnimation* destroyAnimation = CCAnimationCache::sharedAnimationCache()->animationByName("explosion_1");
-	CCAnimate* animate = CCAnimate::create(destroyAnimation);
-	CCSprite* grossini = CCSprite::create();
-	CCSpriteFrame* frame = destroyAnimation->getFrames().front()->getSpriteFrame();
-	grossini->setDisplayFrame(frame);
-	grossini->setPosition(this->getPosition());
-	pScene->addChild(grossini, 0);
-	grossini->runAction(animate);
-	//删除节点对象
-	this->pScene->removeChild(this,false);
-	this->release(); //如果要改写的话，最好在最后调用这个，否则自身就先被release掉了
-	return;
 }

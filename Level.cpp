@@ -1,7 +1,5 @@
-#include "Reflaction.h"
 #include "Level.h"
-#include "Fighter.h"
-#include "cocos2d.h"
+#include "Reflaction.h"
 #include <cstdlib>
 #include <ctime>
 USING_NS_CC;
@@ -55,12 +53,46 @@ bool game::Level::loadLevel(DataLoader * saveDL, DataLoader * configDL, int leve
 		}
 		enemyID++;
 	}
+	/*加载备选掉落物数据*/
+	this->dropItemVec = new std::vector<dropItem>();
+	int dropID = 1;
+	while (levelData->findPairByKey("dropItem_" + std::to_string(dropID)) != nullptr) {
+		//读取大类
+		std::string iconTypeStr = levelData->findPairByKey("dropType_" + std::to_string(dropID))->value;
+		//读取gameData中存储的类别
+		std::string itemTypeStr = levelData->findPairByKey("dropItem_" + std::to_string(dropID))->value;
+		//分析
+		dropType dt;
+		iconType it;
+		if (iconTypeStr == "gem") { 
+			dt = dropType::gemType;
+			if(itemTypeStr == "gem_blue") it = iconType::gemBlue;
+			if (itemTypeStr == "gem_purple") it = iconType::gemPurple;
+		}
+		else if (iconTypeStr == "weapon") { 
+			dt = dropType::weaponType;
+			it = iconType::weaponBlue; //武器的话性能随意设定, 在生成的时候修改即可
+		}
+		
+		//读取数据
+		dropItem di{
+			it,dt, itemTypeStr,
+			levelData->findPairByKey("dropStage_" + std::to_string(dropID))->value,
+			levelData->valueConvert<float>(levelData->findPairByKey("dropProbability_" + std::to_string(dropID))->value)
+		};
+		this->dropItemVec->push_back(di);
+
+		dropID++;
+	}
+	//加载空的战利品集合
+	this->spoils = new std::vector<game::dropItem>();
 	return true;
 }
 
 void game::Level::activate(FightScene *pScene) 
 {
 	cocos2d::log("Level activated.");
+
 	//初始化随机数生成器
 	srand(unsigned(time(0)));
 	//初始化stage和batch
@@ -68,20 +100,6 @@ void game::Level::activate(FightScene *pScene)
 	runningBatch = 1;
 	//初始化scene
 	this->pScene = pScene;
-	//加载一个实验动画，这部分以后要删去
-	CCSpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
-	frameCache->addSpriteFramesWithFile("explosion_1.plist");
-	Vector<SpriteFrame*> sfVec;
-	for (int i = 1; i <= 15; i++)
-	{
-		CCSpriteFrame *frame = frameCache->getSpriteFrameByName(("explosion_1__" + std::to_string(i) + ".png").c_str());
-		sfVec.pushBack(frame);
-	}
-	CCAnimation* animation = CCAnimation::createWithSpriteFrames(sfVec, 0.025f);
-	animation->setRestoreOriginalFrame(false);
-	cocos2d::log("Animation loaded");
-	//有多个动画时也可以使用CCAnimationCache
-	CCAnimationCache::sharedAnimationCache()->addAnimation(animation, "explosion_1");
 	//设置回调
 	cocos2d::ccSchedulerFunc callback = std::bind(&game::Level::batchCallback, this, std::placeholders::_1);
 	this->schedule(callback, (float) batchTime, std::string("batchCallback")); //调度器，每batchtime秒更新一次batch
@@ -113,9 +131,7 @@ void game::Level::batchCallback(float)
 				//更新adding fighter
 				this->waitingList->push_back(e);
 				e->retain(); //涉及到内存管理问题,不加这个会被自动垃圾回收
-
 				//创建一个定时器
-				
 				this->scheduleOnce(callback, enterTime, "fighterCB_" + std::to_string(this->runningStage) + "_" + std::to_string(this->runningBatch) + "_" + std::to_string(genNum)); //调度器
 			}
 		}
@@ -139,6 +155,35 @@ void game::Level::fighterEnterCallback(float)
 		wf->setAutoFire(this->pScene); //加入后就开火
 		this->waitingList->pop_back();
 	}
+}
+
+void game::Level::generateDropItem(int count, cocos2d::Vec2 position)
+{
+	float prob = getRandom(0, 99); //抽奖
+	for (int i = 1; i <= count; i++) {
+		for (auto j = this->dropItemVec->begin(); j != this->dropItemVec->end(); j++) {
+			if (j->probability >= prob && j->dropZone.find(std::to_string(this->runningStage)) != std::string::npos) {
+				//如果在当前阶段可以生成且有生成
+				float x = getRandom(-50,50);
+				float y = getRandom(-30,30);
+				//根据模版创建, 这里的iconType可以根据需要修改
+				auto item = dropIcon::create(*j, cocos2d::Vec2(x, y));
+				item->setPosition(position);
+				//添加到碰撞检测中
+				pScene->setIcons(game::FightScene::setFlag::reigster, item);
+				this->pScene->addChild(item);
+				//添加飞机和item的碰撞模版
+			}
+			
+		}
+		
+
+	}
+}
+
+void game::Level::addDropItem(dropItem di)
+{
+	this->spoils->push_back(di);
 }
 
 void game::Level::updateBatch()
