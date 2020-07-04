@@ -9,6 +9,7 @@
 #include "gem.h"
 #include <vector>
 #include <string>
+#include "util.h"
 
 class stationScene;
 
@@ -69,9 +70,6 @@ namespace game {
 		void deleteGemPanel(GemPanel *gp);
 		//刷新左中右，只是对现有child进行排位, pos=left/right, 刷新中间的面板用chooseWeapon进行
 		void flush(std::string pos);
-		//工具类
-		static std::string getPercent(float x);
-		static std::string shortenNum(float x); //得到保留2位有效数字的x，并以string的形式传出
 		//滚动条
 		cocos2d::ui::ScrollView* weaponScrollView;
 		cocos2d::ui::ScrollView* gemScrollView;

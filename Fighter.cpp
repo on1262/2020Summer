@@ -18,7 +18,8 @@ void game::Fighter::destroy()
 	this->destroyCallback(); //执行自定义的代码
 	//删除节点对象
 	this->pScene->removeChild(this, false);
-	this->release(); //如果要改写的话，最好在最后调用这个，否则自身就先被release掉了
+	//对于玩家控制的飞机, 不存在retain(),所以不能release, 而由level生成的飞机是已经retain了的,必须release
+	if (this->fAlly == ally::enemy) release();
 	return;
 }
 
@@ -96,6 +97,7 @@ bool game::Fighter::init()
 		return false;
 	}
 	else {
+		this->isActivated = false;
 		this->isLoaded = false;//初始化
 		return true; 
 	}
@@ -108,8 +110,17 @@ void game::Fighter::onEnter()
 
 void game::Fighter::setAutoFire(FightScene *scene)
 {
+	this->isActivated = true;
 	this->pScene = scene;
 	for (auto i = this->portVector->begin(); i != this->portVector->end(); i++) {
 		(*i)->activate(this->pScene);
+	}
+}
+
+void game::Fighter::shutdown()
+{
+	this->isActivated = false;
+	for (auto i = this->portVector->begin(); i != this->portVector->end(); i++) {
+		(*i)->shutDown();
 	}
 }

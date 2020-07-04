@@ -170,6 +170,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="stationScene.cpp" />
     <ClCompile Include="tinter.cpp" />
+    <ClCompile Include="util.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponBullet.cpp" />
     <ClCompile Include="WeaponGun.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="SimplexNoise.h" />
     <ClInclude Include="stationScene.h" />
     <ClInclude Include="tinter.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponBullet.h" />
     <ClInclude Include="WeaponGun.h" />

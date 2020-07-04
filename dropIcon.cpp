@@ -8,7 +8,7 @@ game::dropIcon * game::dropIcon::create(dropItem di, cocos2d::Vec2 direction)
 		//添加到缓存时不会release
 		//sprite->autorelease();
 		//添加一些内容
-		
+		sprite->_dropItem = di;
 		sprite->runAction(cocos2d::EaseSineOut::create(cocos2d::MoveBy::create(2.5, cocos2d::Vec3(direction.x, direction.y, 0))));
 		sprite->setLocalZOrder(0);
 		return sprite;

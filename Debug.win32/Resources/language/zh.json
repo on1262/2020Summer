@@ -11,5 +11,17 @@
   "damage": "子弹伤害",
   "gainLabel": "增幅：",
   "shield": "护盾:",
-  "playerHealth": "性能:"
+  "playerHealth": "性能:",
+  "linear": "基础型",
+  "advanced": "改进型",
+  "sellPrice": "回收零件:",
+  "gun": "机枪",
+  "levelDesignedDifficulty": "关卡设定难度:",
+  "relativeDifficulty": "关联难度",
+  "evaluation": "评价:",
+  "destroyEnemyCount": "击落敌机数:",
+  "getGemCount": "获得宝石数",
+  "getWeaponCount": "获得武器数",
+  "checkAll": "检测全部",
+  "returnToStation": "返回维修舱"
 }

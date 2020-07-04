@@ -68,6 +68,36 @@ int game::FightScene::getEnemyFighterCount()
 }
 
 
+void game::FightScene::gameFinished(bool isPlayerDestroyed)
+{
+	//注销飞机
+	this->playerFighter == nullptr;
+	fightWindow->unscheduleUpdate();//取消更新
+	//生成一个新的玩家飞机
+	auto pf = PlayerFighter::create();
+	pf->loadFighter(pGameDataLoader, pUserDataLoader, 1, game::ally::player, Vec2(1024, 768));
+	pf->shutdown();
+	//向level注销生成飞机
+	this->level->setFinishedFlag(true);
+	//取消碰撞检测
+	this->isCollisionDetectionOpen = false;
+	SettlementWindow::initData init{
+		level->getLevelData(),
+		pf,
+		pGameDataLoader,
+		pUserDataLoader,
+		*(this->level->getSpoils()),
+		this->destoryedEnemyCount,
+		this->getGemCount,
+		0, //这里要改
+		this->getWeaponCount,
+		isPlayerDestroyed
+	};
+	this->settlementWindow = SettlementWindow::create(init);
+	this->addChild(settlementWindow);
+	this->settlementWindow->setZOrder(11);
+}
+
 bool game::FightScene::detectCollision(Node* node1, Node* node2)
 {
 	if (node1 == nullptr || node2 == nullptr) { //如果找不到player的飞机
@@ -98,7 +128,7 @@ void game::FightScene::EnemyFighterWithPlayerCollision()
 	//检测enemy是否和player碰撞
 	for (auto ef = this->activatedEnemyFighters->begin(); ef != activatedEnemyFighters->end(); ef++) {
 		if (this->detectCollision(playerFighter, *ef) == true) {
-			this->playerFighter->getDamage(10);
+			this->playerFighter->getDamage(50);
 			(*ef)->getDamage(110);
 			break; //同一时间只检测一个fighter即可
 		}
@@ -273,7 +303,8 @@ bool game::FightScene::setIcons(setFlag f, game::dropIcon * di)
 void game::FightScene::update(float delta)
 {
 	if (this->isCollisionDetectionOpen == false) {
-		log("Info: Collision detection closed.");
+		//注销自身
+		this->unscheduleUpdate();
 		return;
 	}
 	if (this->playerFighter == nullptr) { //如果玩家不存在，就不进行碰撞检测（死后的瞬间？）
@@ -323,6 +354,7 @@ bool game::FightScene::init()
 	this->level = nullptr;
 	this->playerFighter = nullptr;
 	this->fightWindow = nullptr;
+	this->settlementWindow = nullptr;
 	this->getGemCount = 0;
 	this->destoryedEnemyCount = 0;
 	this->getWeaponCount = 0;
@@ -347,7 +379,7 @@ void game::FightScene::onEnter()
 	cocos2d::log("player loaded");
 	//添加关卡生成器
 	auto levelController = game::Level::create();
-	levelController->loadLevel(pUserDataLoader, pGameDataLoader, 1, 2, windowSize);
+	levelController->loadLevel(pUserDataLoader, pGameDataLoader, 1 , 2, windowSize);
 	levelController->setTag(2000);
 	this->addChild(levelController);
 	this->level = levelController;

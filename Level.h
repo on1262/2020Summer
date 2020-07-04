@@ -37,6 +37,9 @@ namespace game {
 		void updateBatch();
 		//工具，得到1-100的随机整数
 		static float getRandom(float start, float end);
+		game::Data* getLevelData();
+		std::vector<dropItem>* getSpoils();
+		void setFinishedFlag(bool flag);
 	protected:
 		//关卡载入时
 		DataLoader* saveDataLoader, *configDataLoader;
@@ -60,6 +63,8 @@ namespace game {
 		int runningBatch; //正在跑的批次，注意batch取值1-5,到5时需要重置batch， 0代表关卡结束
 		std::vector<Fighter*> *waitingList; //给回调函数的，需要添加的enemy 
 		int runningEnemyTag; //从3000开始更新最新敌机的分配tag,这个tag不可以超过20000
+		//关卡结束信息
+		bool isFinished;
 	};
 }
 #endif __LEVEL_H__ //__LEVEL_H__

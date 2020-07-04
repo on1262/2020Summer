@@ -21,7 +21,6 @@ void game::PlayerFighter::fighterMoveCallback(EventKeyboard::KeyCode keyCode, Ev
 
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_W:
-		log("runW");
 		actionW->setTag(1);
 		fighter->stopActionByTag(5);
 		fighter->runAction(actionW);
@@ -64,8 +63,17 @@ void game::PlayerFighter::getDamage(float damage)
 
 void game::PlayerFighter::destroyCallback()
 {
-	//进入结算画面
+	//禁止wasd控制和武器发射
+	this->shutdown();
+	//请求进入结算界面, 坠毁
+	this->pScene->gameFinished(true);
+}
 
+void game::PlayerFighter::shutdown()
+{
+	Fighter::shutdown();
+	//禁止wasd的实现
+	_eventDispatcher->removeEventListener(listener);
 }
 
 //WASD移动的实现2
@@ -75,7 +83,6 @@ void game::PlayerFighter::fighterStopCallback(EventKeyboard::KeyCode keyCode, Ev
 	//注册监听，下一帧开始
 	if (keyCode == EventKeyboard::KeyCode::KEY_W) {
 		fighter->stopActionByTag(1);
-		log("stopW");
 		auto stopW = EaseIn::create(MoveBy::create(0.8f, Vec3(0, 10, 0)), 1);
 		stopW->setTag(5);
 		fighter->runAction(stopW);
@@ -112,8 +119,8 @@ void game::PlayerFighter::onEnter()
 	//PlayerFighter是特殊的，固定有tag=1000,用于全场的识别
 	this->setTag(1000);
 	//添加wasd控制
-	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = CC_CALLBACK_2(PlayerFighter::fighterMoveCallback, this);
-	listener->onKeyReleased = CC_CALLBACK_2(PlayerFighter::fighterStopCallback, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this->getParent());
+	this->listener = EventListenerKeyboard::create();
+	this->listener->onKeyPressed = CC_CALLBACK_2(PlayerFighter::fighterMoveCallback, this);
+	this->listener->onKeyReleased = CC_CALLBACK_2(PlayerFighter::fighterStopCallback, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(this->listener, this->getParent());
 }

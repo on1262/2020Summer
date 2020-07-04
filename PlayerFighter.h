@@ -11,6 +11,8 @@ namespace game {
 	public:
 		//player是拥有防护盾的设定
 		int shield;
+		//用于给scene的监听
+		cocos2d::EventListenerKeyboard* listener;
 		CREATE_FUNC(PlayerFighter);
 		virtual void onEnter(); //初始化
 		void PlayerFighter::fighterStopCallback(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -20,6 +22,8 @@ namespace game {
 		//重写伤害和爆炸机制
 		void getDamage(float damage) override;
 		void destroyCallback() override;
+		//重写停机机制
+		void shutdown() override;
 	};
 }
 #endif __PLAYERFIGHTER_H__ //__PLAYERFIGHTER_H__

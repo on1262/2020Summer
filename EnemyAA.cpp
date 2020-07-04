@@ -14,7 +14,13 @@ void game::EnemyAA::setAutoFire(FightScene *scene)
 	//随机设置瀑布式掉落
 	this->setPosition(getRandom(0, windowSize.x), windowSize.y);
 	//添加一个从当前成掠过的动画~
-	this->runAction(cocos2d::EaseIn::create(cocos2d::MoveBy::create(2, cocos2d::Vec2(0, -2*windowSize.y)),1.0));
+	this->runAction(
+		cocos2d::Sequence::create(
+			cocos2d::EaseIn::create(cocos2d::MoveBy::create(2, cocos2d::Vec2(0, -1 * windowSize.y)), 1.0),
+			cocos2d::CallFunc::create(CC_CALLBACK_0(EnemyAA::destroy, this)),
+			0
+		)
+	);
 }
 
 void game::EnemyAA::getDamage(float damage)
@@ -25,8 +31,10 @@ void game::EnemyAA::getDamage(float damage)
 
 void game::EnemyAA::destroyCallback()
 {
-	//爆出宝石和武器
-	pScene->level->generateDropItem(2, this->getPosition());
+	if (health <= 0) { //只有在被击落时才爆出武器, 自动退场时没有
+		//爆出宝石和武器
+		pScene->level->generateDropItem(2, this->getPosition());
+	}
 }
 
 float game::EnemyAA::getRandom(float start, float end) { //生成（start,end）开区间内的浮点数，如果想得到1-100值，将start设为1，将end设为100

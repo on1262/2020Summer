@@ -38,11 +38,14 @@ namespace game {
 		virtual bool init();
 		virtual void onEnter(); //这里检测isLoaded
 		virtual void setAutoFire(FightScene *scene); //通知各武器开火,这个函数必须在添加场景以后执行！
+		//停机, 关闭移动功能和所有武器的发射状态
+		virtual void shutdown();
 		/*伤害或被摧毁*/
 		virtual void getDamage(float damage)=0;//碰撞后调用，自动减少相应的生命值
 		void destroy();  //碰撞判定调用,播放被摧毁的动画,注销碰撞判定,继承的类只需要重写
 		virtual void destroyCallback()=0; //继承类特异性操作的代码
 	protected:
+		bool isActivated;//设置武器开关
 		bool isLoaded; //是否执行过loadFighter，防止出错
 		Data* config; //保存自己的数据
 		DataLoader* pGameDataLoader, *pUserDataLoader;

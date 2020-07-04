@@ -25,20 +25,29 @@ void game::WeaponBullet::activate(FightScene *scene)
 {
 	Weapon::activate(scene); //调用父函数
 	//这里要将子弹添加到碰撞判定中
+	float distance;
 	if (this->weaponAlly == ally::player) {
 		//添加碰撞判定
 		scene->setPlayerBullets(FightScene::setFlag::reigster, this);
 		//设置子弹前进方向
-		this->runAction(cocos2d::MoveBy::create(10 / bulletSpeed, cocos2d::Vec2(0, this->windowSize.y)));
+		distance = this->windowSize.y;
 
 	}
 	else if (this->weaponAlly == ally::enemy) {
 		//添加碰撞判定
 		scene->setEnemyBullets(FightScene::setFlag::reigster, this);
 		//设置子弹前进方向
-		this->runAction(cocos2d::MoveBy::create(10 / bulletSpeed, cocos2d::Vec2(0, -1* this->windowSize.y))); //敌人的子弹方向要相反~
+		distance = -1.0 * this->windowSize.y; //敌人的子弹方向要相反~
 
 	}
+	//设置回调:出界以后就消失
+	this->runAction(
+		cocos2d::Sequence::create(
+			cocos2d::MoveBy::create(10 / bulletSpeed, cocos2d::Vec2(0, distance)),
+			cocos2d::CallFunc::create(CC_CALLBACK_0(WeaponBullet::destroy,this)),
+			0
+		)
+	);
 }
 
 void game::WeaponBullet::destroy()
@@ -51,5 +60,5 @@ void game::WeaponBullet::destroy()
 			cocos2d::log("Warning: error in canceling collision detection for player bullet");
 		}
 	}
-	this->removeChild(this, false);
+	this->removeFromParent();
 }

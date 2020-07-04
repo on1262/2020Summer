@@ -31,6 +31,10 @@ void game::WeaponGun::activate(FightScene *scene) //activate一定要在创建节点树以
 
 void game::WeaponGun::gunCallback(float)
 {
+	if (this->isFire = false) { //如果停火,则取消发射子弹
+		this->unschedule("gunCallback");
+		return;
+	}
 	//如果玩家的飞机不存在，那么并不会创建任何东西
 	cocos2d::Node* fighter = cocos2d::Director::getInstance()->getRunningScene()->getChildByTag(1000);
 	if (fighter == nullptr) return;
@@ -42,5 +46,4 @@ void game::WeaponGun::gunCallback(float)
 	wb->setPosition(fighter->getPosition());
 	//手动调用activate(). 因为要传入指针
 	wb->activate(pScene);
-	cocos2d::log("Created a instance of WeaponBullet.");
 }

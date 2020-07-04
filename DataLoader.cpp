@@ -151,6 +151,15 @@ bool game::DataLoader::addPairByLabel(std::string label, std::string key, std::s
 	return false;
 }
 
+int game::DataLoader::getAvailableDataLabel(std::string preffix)
+{
+	int i = 1;
+	while (this->findDataByLabel(preffix + std::to_string(i)) != nullptr) {
+		i++;
+	}
+	return i;
+}
+
 //loops置-1表示循环播放, preffix需要包括前面的path
 void game::DataLoader::loadAnimation(std::string animationName,std::string pngPreffix,std::string pngSuffix,int frameCount, float duration, int loops)
 {

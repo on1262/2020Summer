@@ -50,5 +50,10 @@ void game::Weapon::activate(FightScene * scene) //管理武器的启动状态（动画，伤害
 	this->isFire = true; //通用
 }
 
+void game::Weapon::shutDown()
+{
+	this->isFire = false;
+}
+
 
 

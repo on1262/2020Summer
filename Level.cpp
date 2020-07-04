@@ -14,6 +14,7 @@ bool game::Level::loadLevel(DataLoader * saveDL, DataLoader * configDL, int leve
 	this->saveDataLoader = saveDL;
 	this->configDataLoader = configDL;
 	this->windowSize = windowSize;
+	this->ID = levelID;
 	//初始化waitinglist
 	this->waitingList = new std::vector<Fighter*>;
 	//初始化tag
@@ -92,7 +93,8 @@ bool game::Level::loadLevel(DataLoader * saveDL, DataLoader * configDL, int leve
 void game::Level::activate(FightScene *pScene) 
 {
 	cocos2d::log("Level activated.");
-
+	//初始化结束标志
+	this->isFinished = false;
 	//初始化随机数生成器
 	srand(unsigned(time(0)));
 	//初始化stage和batch
@@ -107,6 +109,11 @@ void game::Level::activate(FightScene *pScene)
 
 void game::Level::batchCallback(float)
 {
+	//如果置结束标志,则注销
+	if (isFinished == true) {
+		this->unschedule("batchCallback");
+		return;
+	}
 	if (this->isStageStopped == true) { //如果还在Boss战阶段，就等待
 		return;
 	}
@@ -209,4 +216,19 @@ float game::Level::getRandom(float start, float end) { //生成（start,end）开区间
 
 	float i = start + (end - start)*rand() / (RAND_MAX + 1.0);
 	return i;
+}
+
+game::Data* game::Level::getLevelData()
+{
+	return this->saveDataLoader->findDataByLabel("level_" + std::to_string(this->ID));
+}
+
+std::vector<dropItem>* game::Level::getSpoils()
+{
+	return this->spoils;
+}
+
+void game::Level::setFinishedFlag(bool flag)
+{
+	this->isFinished = flag;
 }

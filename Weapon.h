@@ -11,14 +11,10 @@
 #include "Data.h"
 #include <string>
 
-
-
 namespace game {
 	class FightScene;
 	enum ally{player, enemy}; //敌我阵营判断，这个是为所有Fighter/player都认可的
-
 	class Fighter; //前置声明
-
 	class Weapon : public cocos2d::Sprite {
 	public:
 		//武器识别
@@ -35,6 +31,8 @@ namespace game {
 		virtual bool loadWeapon(Data* pConfig,Data* pData, ally wAlly, cocos2d::Vec2 windowSize);
 		//武器发射或开启伤害模式,重载时需要调用父函数
 		virtual void activate(FightScene *scene);
+		//武器停止发射
+		virtual void shutDown();
 		CREATE_FUNC(Weapon);
 	protected:
 		bool isLoaded; //是否在enter前调用过loadWeapon，如果没有，则输出错误信息

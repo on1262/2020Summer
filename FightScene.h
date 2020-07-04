@@ -34,6 +34,7 @@
 #include "FightWindow.h"
 #include "dropIcon.h"
 #include <vector>
+#include "SettlementWindow.h"
 
 namespace game {
 	class Level;
@@ -68,7 +69,9 @@ namespace game {
 		int getGemCount; //获得的宝石数量
 		int getWeaponCount;
 		/*结算信息UI*/
-
+		SettlementWindow* settlementWindow;
+		/*游戏结束*/
+		void gameFinished(bool isPlayerDestroyed);
 		/*碰撞判定方法*/
 		enum setFlag { reigster, cancel };
 		bool detectCollision(Node * node1, Node * node2);//碰撞判定方法,2个Node

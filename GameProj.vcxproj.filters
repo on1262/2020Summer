@@ -102,6 +102,9 @@
     <ClCompile Include="SettlementWindow.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -176,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="SettlementWindow.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

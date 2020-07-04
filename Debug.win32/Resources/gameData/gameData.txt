@@ -11,10 +11,11 @@ texturePath=bullet//bullet-1.png
 attribute=bulletSpeed
 attribute=damage
 * drop_1
-texturePath=texturePath=gun//gun-1.png
+texturePath=gun//gun-1.png
 weaponType=gun
 attribute=rpm
 attr_rpm=5
+coef_rpm=0.05
 * gem_blue
 texturePath=gem//gem-blue.png
 * gem_purple

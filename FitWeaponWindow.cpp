@@ -1,6 +1,7 @@
 #include "FitWeaponWindow.h"
 #include "LanguageManager.h"
 #include <sstream>
+#include "util.h"
 game::FitWeaponWindow *game::FitWeaponWindow::_window = nullptr;
 
 void game::FitWeaponWindow::WeaponPanel::addGem(gem *g)
@@ -152,20 +153,6 @@ void game::FitWeaponWindow::flush(std::string pos)
 	}
 }
 
-std::string game::FitWeaponWindow::getPercent(float x)
-{
-	return std::to_string((int)(x * 100)) + "%";
-}
-
-std::string game::FitWeaponWindow::shortenNum(float x)
-{
-	std::string s;
-	std::stringstream ss;
-	ss << ss.precision(2) << x;
-	ss >> s;
-	return s;
-}
-
 game::FitWeaponWindow * game::FitWeaponWindow::create(stationScene * s)
 {
 	//无论是否存在都要重新创建，因为其他操作可能改变数据
@@ -291,7 +278,7 @@ void game::FitWeaponWindow::chooseWeapon(FitWeaponWindow::WeaponPanel * wp)
 	for (auto j = perfVec.begin(); j != perfVec.end(); j++) {
 		float fixedAttrValue = j->attrValue + gain * j->attrCoef; //计算增益后的数值
 		if (perfStr.empty() == false) perfStr += "\n";//第二行开始换行
-		perfStr += j->attrStr + ": " + shortenNum(j->attrValue) + "(" + shortenNum(j->attrCoef) + ")" + "->" + shortenNum(fixedAttrValue);
+		perfStr += j->attrStr + ": " + util::shortenNum(j->attrValue) + "(" + util::shortenNum(j->attrCoef) + ")" + "->" + util::shortenNum(fixedAttrValue);
 	}
 	//添加到performance上
 	cocos2d::log("INFO: setting performance text");
@@ -301,7 +288,7 @@ void game::FitWeaponWindow::chooseWeapon(FitWeaponWindow::WeaponPanel * wp)
 	this->addChild(performance);
 	//添加gemGain
 	cocos2d::log("INFO: setting gainLabel");
-	std::string gainStr = LanguageManager::getInstance()->getStringForKey("gainLabel") + getPercent(gain);
+	std::string gainStr = LanguageManager::getInstance()->getStringForKey("gainLabel") + util::getPercent(gain);
 	gemGain = cocos2d::Label::create(gainStr, "fonts//msyh.ttf", 24);
 	gemGain->setColor(cocos2d::Color3B(14, 184, 255));
 	gemGain->setAnchorPoint(cocos2d::Vec2(0, 0.5));

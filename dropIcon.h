@@ -30,6 +30,6 @@ namespace game {
 	};
 }
 
-#endif // !__DROPICON_H__
+#endif __DROPICON_H__ // !__DROPICON_H__
 
 
