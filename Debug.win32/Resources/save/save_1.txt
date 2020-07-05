@@ -1,9 +1,8 @@
 * player_data
 userName=chen
 machinePart=0
+choosedFighter=fighter_1
 * storage
-weapon=weapon_1
-weapon=weapon_1
 weapon=weapon_1
 gem=gem_3
 * fighter_1

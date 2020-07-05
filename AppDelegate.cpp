@@ -24,8 +24,7 @@
 
 #include "AppDelegate.h"
 //场景
-#include "FightScene.h"
-#include "stationScene.h"
+#include "SceneManager.h"
 
 
 // #define USE_AUDIO_ENGINE 1
@@ -124,10 +123,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	//这里开始执行自定义代码
 	//director->setProjection(kCCDirectorProjection2D); //好像可以提高动画质量
 	// @test 这里根据场景不同进行加载
-	auto scene = game::FightScene::create();
-    // run
-    director->runWithScene(scene);
-
+	game::SceneManager::getInstance()->loadFirstScene(nullptr);
     return true;
 }
 

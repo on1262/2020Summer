@@ -40,6 +40,7 @@ namespace game {
 	class Level;
 	class Fighter;
 	class FightWindow;
+	class SettlementWindow;
 	class FightScene : public cocos2d::Scene
 	{
 	public:
@@ -47,10 +48,14 @@ namespace game {
 		//添加文件存取器:游戏设定读取和用户数据读取
 		DataLoader* pGameDataLoader;
 		DataLoader* pUserDataLoader;
+		//文件存取设定
+		void setDataLoader(DataLoader* pGame, DataLoader* pUser);
 		//存储唯一的玩家飞机，如果以后添加僚机，那么需要改写成Vector
 		Fighter* playerFighter;
 		//当前关卡的指针
 		Level* level;
+		//关卡ID
+		int levelID;
 		//添加子弹和飞机存储器，用来进行敌我识别, 注意，这里注册的不是所有的对象，而是activate（）调用后的有效对象。
 		std::vector<game::Fighter*> *activatedEnemyFighters;
 		std::vector<game::Weapon*> *activatedPlayerBullets;
@@ -64,6 +69,8 @@ namespace game {
 		float getPlayerHealth();
 		float getPlayerShield();
 		int getEnemyFighterCount();
+		int getDestroyedEnemyCount();
+		void addDestroyedEnemyCount(int num); //加上num个
 		/*战斗信息数据存储*/
 		int destoryedEnemyCount; //击坠数
 		int getGemCount; //获得的宝石数量
@@ -92,7 +99,7 @@ namespace game {
 		static cocos2d::Scene* createScene();
 		virtual bool init();
 		virtual void onEnter();
-		CREATE_FUNC(FightScene);
+		static FightScene* create(int levelID); //载入的关卡ID
 	};
 }
 #endif __FIGHTSCENE_H__// __FIGHTSCENE_H__

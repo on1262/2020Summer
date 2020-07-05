@@ -47,6 +47,12 @@ USING_NS_CC;
 *任何友好物的tag都会是1000/2000/2001-2100/20000以后
 **********/
 
+void game::FightScene::setDataLoader(DataLoader * pGame, DataLoader * pUser)
+{
+	this->pGameDataLoader = pGame;
+	this->pUserDataLoader = pUser;
+}
+
 float game::FightScene::getPlayerHealth()
 {
 	if (this->playerFighter != nullptr) return this->playerFighter->health;
@@ -65,6 +71,16 @@ int game::FightScene::getEnemyFighterCount()
 {
 	//用碰撞判定的数据作为敌机数量
 	return this->activatedEnemyFighters->size();
+}
+
+int game::FightScene::getDestroyedEnemyCount()
+{
+	return this->destoryedEnemyCount;
+}
+
+void game::FightScene::addDestroyedEnemyCount(int num)
+{
+	this->destoryedEnemyCount += num;
 }
 
 
@@ -128,6 +144,7 @@ void game::FightScene::EnemyFighterWithPlayerCollision()
 	//检测enemy是否和player碰撞
 	for (auto ef = this->activatedEnemyFighters->begin(); ef != activatedEnemyFighters->end(); ef++) {
 		if (this->detectCollision(playerFighter, *ef) == true) {
+			//@test 这里只是为了方便检测
 			this->playerFighter->getDamage(50);
 			(*ef)->getDamage(110);
 			break; //同一时间只检测一个fighter即可
@@ -163,8 +180,8 @@ void game::FightScene::EnemyWithPlayerBulletCollision()
 				//强制类型转换
 				try {
 					game::WeaponBullet* playerbullet = dynamic_cast<game::WeaponBullet*>(*pb);
-					playerbullet->destroy(); //子弹销毁
-					(*e)->destroy();//飞机销毁
+					playerbullet->destroy(); //子弹没有生命值,故直接销毁
+					(*e)->getDamage(110); //@test 测试用数据
 					return;
 				}
 				catch (...) {
@@ -322,7 +339,7 @@ void game::FightScene::update(float delta)
 
 Scene* game::FightScene::createScene()
 {
-	return FightScene::create();
+	return FightScene::create(1);
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -342,9 +359,6 @@ bool game::FightScene::init()
 	}
 
 	//窗口大小默认1024*768, 所有的UI，背景都按照这一大小设计，不能更改
-	//文件存取器初始化:userDataLoader和gameDataLoader
-	this->pGameDataLoader = new game::DataLoader(std::string("gameData//"), std::string("gameData.txt"));
-	this->pUserDataLoader = new game::DataLoader(std::string("save//"), std::string("save_1.txt"));
 	//碰撞检测池初始化
 	this->activatedPlayerBullets = new std::vector<game::Weapon*>;
 	this->activatedEnemyFighters = new std::vector<game::Fighter*>;
@@ -379,11 +393,10 @@ void game::FightScene::onEnter()
 	cocos2d::log("player loaded");
 	//添加关卡生成器
 	auto levelController = game::Level::create();
-	levelController->loadLevel(pUserDataLoader, pGameDataLoader, 1 , 2, windowSize);
+	levelController->loadLevel(pUserDataLoader, pGameDataLoader, levelID , 2, windowSize);
 	levelController->setTag(2000);
 	this->addChild(levelController);
 	this->level = levelController;
-	cocos2d::log("test3");
 	levelController->activate(this); //启动关卡生成器
 	log("Scene loading: levelController activated");
 	//开启碰撞检测，这里用一个参数表示
@@ -425,3 +438,20 @@ void game::FightScene::onEnter()
 	this->fightWindow->setLocalZOrder(100);
 	this->addChild(fightWindow);
 }
+
+game::FightScene* game::FightScene::create(int levelID)
+{
+	FightScene *ret = new (std::nothrow) FightScene();
+	if (ret && ret->init())
+	{
+		ret->autorelease();
+	}
+	else
+	{
+		CC_SAFE_DELETE(ret);
+		return nullptr;
+	}
+	ret->levelID = levelID;
+	return ret;
+}
+

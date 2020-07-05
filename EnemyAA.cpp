@@ -34,6 +34,8 @@ void game::EnemyAA::destroyCallback()
 	if (health <= 0) { //只有在被击落时才爆出武器, 自动退场时没有
 		//爆出宝石和武器
 		pScene->level->generateDropItem(2, this->getPosition());
+		//击杀数加1
+		this->pScene->addDestroyedEnemyCount(1);
 	}
 }
 

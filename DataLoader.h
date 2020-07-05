@@ -8,15 +8,21 @@
 	
 namespace game {
 	class Data;
-
+	//全局化调用的选项
+	enum DataLoaderType{saveDL,gameDL};
 	class DataLoader
 	{
 	public:
 		//成员
 		std::string m_fullPath;
 		std::vector<Data*> *loaderVector;
+		//全局化调用的方法
+		static DataLoader* saveDataLoader;
+		static DataLoader* gameDataLoader;
 		//方法
 		DataLoader(std::string path, std::string name);
+		static DataLoader* getDataLoader(DataLoaderType dlt);
+		static void setDataLoader(DataLoaderType dlt, DataLoader* dl);
 		~DataLoader(); //删除所有的Data
 		Data* findDataByLabel(std::string label);
 		bool saveAll();

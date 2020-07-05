@@ -105,6 +105,15 @@
     <ClCompile Include="util.cpp">
       <Filter>tools</Filter>
     </ClCompile>
+    <ClCompile Include="StartScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="FitShipWindow.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -182,6 +191,15 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>tools</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="FitShipWindow.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

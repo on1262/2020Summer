@@ -4,6 +4,10 @@
 #include <string>
 #include <stdlib.h>
 
+//初始化全局量
+game::DataLoader* game::DataLoader::saveDataLoader = nullptr;
+game::DataLoader* game::DataLoader::gameDataLoader = nullptr;
+
 game::DataLoader::DataLoader(std::string path, std::string name)
 {
 	std::string fullName = path + name;
@@ -13,6 +17,26 @@ game::DataLoader::DataLoader(std::string path, std::string name)
 	this->m_fullPath = fullName;
 	loaderVector = new std::vector<Data*>;
 	loadAll();
+}
+
+game::DataLoader* game::DataLoader::getDataLoader(DataLoaderType dlt)
+{
+	if (dlt == DataLoaderType::saveDL && DataLoader::saveDataLoader != nullptr) {
+		return DataLoader::saveDataLoader;
+	}
+	else if (dlt == DataLoaderType::gameDL && DataLoader::gameDataLoader != nullptr) {
+		return DataLoader::gameDataLoader;
+	}
+	else {
+		cocos2d::log("ERROR: getDataLoader(): *DataLoader = nullptr");
+	}
+	return nullptr;
+}
+
+void game::DataLoader::setDataLoader(DataLoaderType dlt, DataLoader * dl)
+{
+	if (dlt == DataLoaderType::gameDL) gameDataLoader = dl;
+	if (dlt == DataLoaderType::saveDL) saveDataLoader = dl;
 }
 
 game::DataLoader::~DataLoader()

@@ -41,9 +41,9 @@ game::SettlementWeaponPanel * game::SettlementWeaponPanel::create(Data * wd, std
 	std::string type = LanguageManager::getInstance()->getStringForKey(wd->findPairByKey("weaponType")->value);
 	//加载属性
 	auto attrVec = wd->findAttrs();
-	std::string labelStr;
+	std::string labelStr = type;
 	for (auto i = attrVec.begin(); i != attrVec.end(); i++) {
-		if (labelStr.empty() == false) labelStr += "\n"; //最开始不换行
+		labelStr += "\n"; 
 		labelStr += ((*i).attrStr + ":" + util::shortenNum((*i).attrValue) + "(" + util::shortenNum((*i).attrCoef) + ")");
 	}
 	btn->label = cocos2d::Label::create(
@@ -89,7 +89,7 @@ game::SettlementWindow * game::SettlementWindow::create(initData init)
 	float tdiff = init.levelData->valueConvert<float>(init.levelData->findPairByKey("timeDifficulty")->value);
 	float difficulty = rdiff * tdiff;
 	//TODO: 这里的计算公式需要改进
-	float score = difficulty * (5 * init.destroyEnemyCount + 10 * init.getGemCount + init.getMachinePartCount);
+	float score = 0.01 * difficulty * (5 * init.destroyEnemyCount + 10 * init.getGemCount + init.getMachinePartCount);
 	auto lang = LanguageManager::getInstance();
 	auto leftLabel = cocos2d::Label::create(
 		lang->getStringForKey("levelDesignedDifficulty") + util::shortenNum(difficulty) + "\n"
@@ -230,4 +230,5 @@ void game::SettlementWindow::checkAllCallback()
 void game::SettlementWindow::returnCallback()
 {
 	cocos2d::log("return call back");
+	SceneManager::getInstance()->fightSceneToStationScene();
 }

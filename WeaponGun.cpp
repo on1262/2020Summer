@@ -9,7 +9,13 @@ bool game::WeaponGun::loadWeapon(Data* pConfig, Data* pData, ally wAlly, cocos2d
 	Weapon::loadWeapon(pConfig, pData,wAlly, windowSize); //重载父函数
 
 	try {
-		this->rpm = pData->valueConvert<int>(pData->findPairByKey(std::string("attr_rpm"))->value);
+		auto attrs = util::getFixedAttr(pData);
+		for (auto j = attrs.begin(); j != attrs.end(); j++) {
+			if (j->attrName == "rpm") {
+				this->rpm = (int)j->attrValue;
+				continue;
+			}
+		}
 		//这部分应当为weaponGun设置一个bulletType，然后利用其寻址，这里直接指定了唯一的bullet
 		this->pBulletConfig = pConfig->pLoader->findDataByLabel("bullet");
 		this->pBulletData = pData->pLoader->findDataByLabel("weapon_2");

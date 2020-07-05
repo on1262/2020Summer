@@ -4,7 +4,7 @@ port_1=gun
 * enemyAA
 texturePath=fighter//fighter-2.png
 * gun
-texturePath=gun//gun-default.png
+texturePath=gun//gun-2.png
 attribute=rpm
 * bullet
 texturePath=bullet//bullet-1.png

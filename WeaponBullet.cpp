@@ -1,13 +1,22 @@
 #include "WeaponBullet.h"
-
+#include "util.h"
 
 bool game::WeaponBullet::loadWeapon(Data * pConfig, Data * pData , ally wAlly, cocos2d::Vec2 windowSize)
 {
 	Weapon::loadWeapon(pConfig, pData, wAlly, windowSize); //父函数完成通用部分继承
-	
 	try {
-		this->bulletSpeed = pData->valueConvert<int>(pData->findPairByKey(std::string("attr_bulletSpeed"))->value);
-		this->damage = pData->valueConvert<int>(pData->findPairByKey(std::string("attr_damage"))->value);
+		//先获得武器增益后的属性值
+		auto attrs = util::getFixedAttr(pData);
+		for (auto j = attrs.begin(); j != attrs.end(); j++) {
+			if (j->attrName == "bulletSpeed") {
+				this->bulletSpeed = j->attrValue;
+				continue;
+			}
+			if (j->attrName == "damage") {
+				this->damage = j->attrValue;
+				continue;
+			}
+		}
 		return true;
 	}
 	catch (...) {
