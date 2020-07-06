@@ -403,24 +403,10 @@ void game::FightScene::onEnter()
 	this->isCollisionDetectionOpen = true;
 	this->scheduleUpdate(); //每帧调用碰撞检测
 	log("Scene loading: collision detection activated.");
-	/*调试代码：行星动画生成器*/
-	PlanetGenerator pg;
-	/*只在游戏初始化时生成，*/
-	for (int i = 1; i < 2; i++) {
-		//pg.generateHeightMap(("_global_" + std::to_string(i)),60,1,100,100,2,i + 2);
-	}
+	/*只在游戏初始化时生成*/
+	PlanetGenerator::getInstance()->setRepeatedPlainMap(false, 1,this, -20, cocos2d::Size(1024, 768), 4, 2048, 100, 1);
 	//pg.setMapSize(192*4 ,256);
 	//pg.generatePlainMap("plainMap_2", 4, 2);
-	/*调试代码，添加特定的动画到scene中
-	Sprite* background = cocos2d::Sprite::create("plainMap//plainMap_1.png");
-	this->addChild(background);
-	background->setPosition(Vec2(512,768*2));
-	background->runAction(MoveBy::create(40, Vec3(0, -768 * 8, 0)));
-	Sprite* background2 = Sprite::create("plainMap//plainMap_2.png");
-	this->addChild(background2);
-	background2->setPosition(Vec2(512, 768*6));
-	background2->runAction(MoveBy::create(40, Vec3(0, -768 * 8, 0)));
-	*/
 	/* 这一段是关于显示星球动画的，放在starMap里实现
 	game::DataLoader::loadAnimation("globalAnim", "planetGenerator//", "_global_1", 100, 7,-1);
 	game::DataLoader::loadAnimation("globalAnimCloud", "planetGenerator//", "_global_1_cloud",100,8,-1);

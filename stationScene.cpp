@@ -97,8 +97,9 @@ void game::stationScene::onEnter()
 
 void game::stationScene::chickFitWeaponWindow()
 {
-
+	
 	if (fitWeapon == nullptr) {
+		this->closeAll(); //先清空,再打开
 		cocos2d::log("INFO: create fit weapon window");
 		fitWeapon = game::FitWeaponWindow::create(this);
 		this->addChild(fitWeapon);
@@ -112,7 +113,9 @@ void game::stationScene::chickFitWeaponWindow()
 
 void game::stationScene::chickFitShipWindow()
 {
+	
 	if (fitShip == nullptr) {
+		this->closeAll(); //先清空,再打开
 		cocos2d::log("INFO: create fit ship window");
 		//传入shipData
 		auto dl = game::DataLoader::getDataLoader(game::DataLoaderType::saveDL);

@@ -5,6 +5,9 @@
 #include <random>
 
 #define _USE_MATH_DEFINES
+
+PlanetGenerator* PlanetGenerator::_generator = nullptr;
+
 PlanetGenerator::PlanetGenerator()
 {
 	//初始化参数
@@ -19,7 +22,15 @@ PlanetGenerator::PlanetGenerator()
 	srand(123);
 }
 
-bool PlanetGenerator::generatePlainMap(std::string name,int scale, int bias)
+PlanetGenerator * PlanetGenerator::getInstance()
+{
+	if (_generator == nullptr) {
+		_generator = new PlanetGenerator();
+	}
+	return _generator;
+}
+
+bool PlanetGenerator::generatePlainMap(std::string name,int mapCount,int scale, int bias)
 {
 	float detail = 0.01; //控制生成地形的宏观程度（越大则生成越跳跃，越宏观）
 	float fBiasX = (float)bias * mapWidth * detail; //设置偏移值
@@ -37,6 +48,86 @@ bool PlanetGenerator::generatePlainMap(std::string name,int scale, int bias)
 	for (int i = 0; i < mapHeight; i++) {
 		for (int j = 0; j < mapWidth; j++) {
 			*up++ = 0.8 - 0.5 * sn.fractal(8, (float)i * detail + fBiasY, (float)j * detail + fBiasX);
+		}
+	}
+	for (int i = 0; i < mapHeight * scale; i++) {
+		for (int j = 0; j < mapWidth * scale; j++) {
+			tinter::color c = styleTinter.getColor(pUnScaledMap[(i / scale) * mapWidth + j / scale]);
+			*p++ = c.R;
+			*p++ = c.G;
+			*p++ = c.B;
+			*p++ = c.A;
+		}
+	}
+	//写入文件
+	svpng(fp, mapWidth * scale, mapHeight * scale, pScaledMap, 1);
+	//返回内存
+	delete pUnScaledMap;
+	delete pScaledMap;
+	fclose(fp);
+	return true;
+}
+
+void PlanetGenerator::setRepeatedPlainMap(bool reGenerate, int repeatedMapIndex, cocos2d::Scene * scene, int ZOrder, cocos2d::Size windowSize, int scale, int mapHeight, float moveSpeed, int bias)
+{
+	//设置高宽, 地图宽度略大于设定宽度,这是为了避免出现缝隙
+	_generator->setMapSize(((mapHeight+8) / scale), windowSize.width / scale);
+	//生成地图
+	cocos2d::log("INFO: generating repeated map...");
+	if (reGenerate == true) {
+		_generator->generateRepeatedPlainMap("repeatedPlainMap_" + std::to_string(repeatedMapIndex), 4, bias);
+	}
+	//读取地图,生成两个连续播放的sprite
+	cocos2d::log("INFO: creating background sprites");
+	auto bg1 = cocos2d::Sprite::create("plainMap//repeatedPlainMap_" + std::to_string(repeatedMapIndex) + ".png");
+	auto bg2 = cocos2d::Sprite::create("plainMap//repeatedPlainMap_" + std::to_string(repeatedMapIndex) + ".png");
+	float time = mapHeight / moveSpeed; //一个背景走完一圈的时间
+	bg1->setAnchorPoint(cocos2d::Vec2::ZERO);
+	bg1->setPosition(0, 0);
+	bg1->setZOrder(ZOrder);
+	bg1->runAction(
+		cocos2d::Sequence::create(
+			cocos2d::MoveBy::create(time, cocos2d::Vec3(0, -mapHeight, 0)),
+			cocos2d::CallFunc::create(std::bind(&PlanetGenerator::backgroundCallback,_generator, bg1, time, mapHeight)),
+			0
+		)
+	);
+	bg2->setAnchorPoint(cocos2d::Vec2::ZERO);
+	bg2->setPosition(0, mapHeight);
+	bg2->setZOrder(ZOrder);
+	bg2->runAction(
+		cocos2d::Sequence::create(
+			cocos2d::MoveBy::create(2.0 * time, cocos2d::Vec3(0, -2 * mapHeight, 0)),
+			cocos2d::CallFunc::create(std::bind(&PlanetGenerator::backgroundCallback, _generator, bg2, time, mapHeight)),
+			0
+		)
+	);
+	scene->addChild(bg1);
+	scene->addChild(bg2);
+	
+}
+
+bool PlanetGenerator::generateRepeatedPlainMap(std::string name, int scale, int bias)
+{
+	float detail = 0.01; //控制生成地形的宏观程度（越大则生成越跳跃，越宏观）
+	float fBiasX = (float)bias * mapWidth * detail; //设置偏移值
+	//根据mapHeight和mapWidth生成指定大小的地图，然后放大scale倍
+	cocos2d::log("generating repeated plain map: initing...");
+	//打开文件
+	FILE* fp = fopen(("plainMap\\" + name + ".png").c_str(), "wb");
+	//生成图像
+	unsigned char* pScaledMap = new unsigned char[4 * scale * scale * mapHeight * mapWidth];
+	//生成小图
+	float* pUnScaledMap = new float[mapHeight * mapWidth];
+	unsigned char* p = &pScaledMap[0];
+	float* up = &pUnScaledMap[0];
+	//圆柱的半径
+	float radius = mapHeight * detail / (2 * M_PI);
+	for (int i = 0; i < mapHeight; i++) {
+		for (int j = 0; j < mapWidth; j++) {
+			//投影成圆柱,以此获得连续的平面
+			float theta = ((float)i / (float)mapHeight) * 2 * M_PI;
+			*up++ = 0.8 - 0.5 * sn.fractal(8, radius * cos(theta), (float)j * detail + fBiasX, radius * sin(theta));
 		}
 	}
 	for (int i = 0; i < mapHeight * scale; i++) {
@@ -356,6 +447,18 @@ float * PlanetGenerator::mapProjection(float control, float * grey, int size, in
 		}
 	}
 	return grey;
+}
+
+void PlanetGenerator::backgroundCallback(cocos2d::Sprite * sprite, float time, int mapHeight)
+{
+	sprite->setPosition(0, mapHeight);
+	sprite->runAction(
+		cocos2d::Sequence::create(
+			cocos2d::MoveBy::create(2.0 * time, cocos2d::Vec3(0, -2 * mapHeight, 0)),
+			cocos2d::CallFunc::create(std::bind(&PlanetGenerator::backgroundCallback, _generator, sprite, time, mapHeight)),
+			0
+		)
+	);
 }
 
 

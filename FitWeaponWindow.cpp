@@ -2,6 +2,7 @@
 #include "LanguageManager.h"
 #include <sstream>
 #include "util.h"
+
 game::FitWeaponWindow *game::FitWeaponWindow::_window = nullptr;
 
 void game::FitWeaponWindow::WeaponPanel::addGem(gem *g)
@@ -65,6 +66,8 @@ game::FitWeaponWindow::WeaponPanel * game::FitWeaponWindow::WeaponPanel::create(
 	//加载武器图片
 	Sprite* weaponIcon = Sprite::create(weaponPath);
 	weaponIcon->setAnchorPoint(cocos2d::Vec2(0.5, 0.5)); //图标居中显示
+	weaponIcon->setRotation(90.0f);
+	weaponIcon->setScale(0.5);
 	weaponIcon->setNormalizedPosition(cocos2d::Vec2(0.2, 0.5));
 	wp->addChild(weaponIcon);
 	//加载武器拥有的gem
@@ -136,8 +139,10 @@ void game::FitWeaponWindow::flush(std::string pos)
 	if (pos == "left") {
 		auto vec = _window->gemScrollView->getChildren();
 		float maxHeight = _window->gemScrollView->getInnerContainerSize().height;
+		int height = 0;
 		for (auto i = vec.begin(); i != vec.end(); i++) {
-			(*i)->setPosition(0, maxHeight - count * 80);
+			height += (*i)->getContentSize().height;
+			(*i)->setPosition(0, maxHeight - height);
 			count++;
 		}
 		return;
@@ -145,8 +150,10 @@ void game::FitWeaponWindow::flush(std::string pos)
 	if (pos == "right") {
 		auto vec = _window->weaponScrollView->getChildren();
 		float maxHeight = _window->weaponScrollView->getInnerContainerSize().height;
+		int height = 0;
 		for (auto i = vec.begin(); i != vec.end(); i++) {
-			(*i)->setPosition(0, maxHeight - count * 80);
+			height += (*i)->getContentSize().height;
+			(*i)->setPosition(0, maxHeight - height);
 			count++;
 		}
 		return;
@@ -241,7 +248,8 @@ void game::FitWeaponWindow::chooseWeapon(FitWeaponWindow::WeaponPanel * wp)
 	_window->weaponImage->setAnchorPoint(cocos2d::Vec2(0.5, 0.5));
 	_window->weaponImage->setPosition(cocos2d::Vec2(365, 768 - 342));
 	_window->weaponImage->setScale9Enabled(false);
-	_window->weaponImage->setScale(3);
+	_window->weaponImage->setScale(2);
+	_window->weaponImage->setRotation(90.0f);
 	_window->addChild(_window->weaponImage);
 	//显示镶嵌上的gem
 	cocos2d::log("INFO: showing gemIcon");
